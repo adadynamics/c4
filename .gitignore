@@ -1,0 +1,5 @@
+target
+#.*
+
+git_setup.sh
+*__*
