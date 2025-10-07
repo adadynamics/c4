@@ -1,0 +1,270 @@
+
+
+
+extern "C":
+    fn open(i8 *name,i32 flags,i32 mode)->i32:
+
+    fn creat(i8 *name,i32 mode)->i32:
+
+    fn openat(i32 dirfd,i8 *name,i32 flags,i32 mode)->i32
+
+    fn read(i32 fd,void *buf,u64 buflen)->i64
+
+    fn write(i32 fd,void *buf,u64 buflen)->i64
+
+    fn sendfile(i32 dst_fd,i32 src_fd,c_off_t *offset,u64 count)->i64
+
+    fn close(i32 fd)->i32
+
+    fn stat(i8 *name,Stat *statbuf)->i32
+
+    fn fstat(i32 fd,Stat *statbuf)->i32
+
+    fn lstat(i8 *name,Stat *statbuf)->i32
+
+    fn fstatat(i32 dirfd,i8 *name,Stat *statbuf,i32 flags)->i32
+
+    fn poll(Pollfd *fds,u64 fds_count,i32 timeout)->i32
+
+    fn ppoll(Pollfd *fds,u64 fds_count,Timespec *timeout,sigset_t *sigmask)->i32
+
+    fn lseek(i32 fd,c_off_t offset,i32 whence)->i64
+
+    fn ioctl(i32 fd,u64 operation,i8 *argp)->i32
+
+    fn pread(i32 fd,void *buf,u64 buflen,c_off_t offset)->i64
+
+    fn pwrite(i32 fd,void *buf,u64 buflen,c_off_t offset)->i64
+
+    fn readv(i32 fd,Iovec *iov,i32 iov_count)->i64
+
+    fn writev(i32 fd,Iovec *iov,i32 iov_count)->i64
+
+    fn preadv(i32 fd,Iovec *iov,i32 iov_count,c_off_t offset)->i64
+
+    fn pwritev(i32 fd,iovec *iov,i32 iov_count,c_off_t offset)->i64
+
+    fn pipe(i32 fds[])->i32
+
+    fn pipe2(i32 fds[],i32 flags)->i32
+
+    fn select(i32 fd_count,fd_set *read_fds,fd_set *write_fds,fd_set *except_fds,Timeval *timeout)->i32
+
+    fn pselect(i32 fd_count,fd_set *read_fds,fd_set *write_fds,fd_set *except_fds,Timespec *timeout,c_sigset_t *sigmask)
+
+    fn dup(i32 fd)->i32
+
+    fn dup2(i32 old_fd,i32 new_fd)->i32
+
+    fn dup3(i32 old_fd,i32 new_fd,i32 flags)->i32
+
+    fn flock(i32 fd,i32 operation)->i32
+
+    fn fsync(i32 fd)->i32
+
+    fn fdatasync(i32 fd)->i32
+
+    fn truncate(char *name,c_off_t size)->i32
+
+    fn ftruncate(i32 fd,c_off_t size)->i32
+
+    fn getcwd(char *buf,u64 size)->char *
+
+    
+    fn chdir(char *path)->i32
+
+    fn fchdir(i32 fd)->i32
+
+    fn rename(char *old_path,char *new_path)->i32
+
+    fn renameat(i32 old_dir_fd,char *old_path,i32 new_dir_fd,char *new_path)->i32
+
+    fn renameat2(i32 old_dir_fd,char *old_path,i32 new_dir_fd,char *new_path,i32 flags)->i32
+
+    fn mkdir(char *path,c_mode_t mode)->i32
+
+    fn mkdirat(i32 dir_fd,char *path,c_mode_t mode)->i32
+
+    fn rmdir(char *path)->i32
+
+    fn link(char *old_path,char *new_path)->i32
+
+    fn linkat(i32 old_dir_fd,char *old_path,i32 new_dir_fd,char *new_path,i32 flags)->i32
+
+    fn unlink(char *path)->i32
+
+    fn unlinkat(i32 dir_fd,char *path,i32 flags)->i32
+
+    fn symlink(char *target,char *link_path)->i32
+
+    fn symlinkat(char *target,i32 new_dir_fd,char *link_path)->i32
+
+    fn readlink(char *path,char *buf,u64 buf_size)->i32
+
+    fn readlinkat(i32 dir_fd,char *path,char *buf,u64 buf_size)->i32
+
+    fn chmod(char *path,c_mode_t mode)->i32
+
+    fn fchmod(i32 fd,c_mode_t mode)->i32
+
+    fn fchmodat(i32 dir_fd,char *path,c_mode_t mode,i32 flags)->i32
+
+    fn chown(char *path,uid_t owner,gid_t group)->i32
+
+    fn lchown(char *path,uid_t owner,gid_t group)->i32
+
+    fn fchown(i32 fd,uid_t owner,gid_t group)->i32
+
+    fn fchownat(i32 dir_fd,char *path,uid_t owner,gid_t group,i32 flags)->i32
+
+    fn umask(mode_t mask)->i32
+
+    fn mknod(char *path,c_mode_t mode,dev_t dev)->i32
+
+    fn mknodat(i32 dir_fd,char *path,c_mode_t mode,dev_t dev)->i32
+
+    fn statfs(char *path,Statfs *buf)->i32
+
+    fn fstatfs(i32 fd,Statfs *buf)->i32
+
+    fn vhangup(void)->i32
+
+    fn pivot_root(char *new_root,char *put_old)->i32
+
+    fn chroot(char *path)->i32
+
+    fn sync(void)->i32
+
+    fn syncfs(i32 fd)->i32
+
+    fn mount(char *source,char *target,char *fs_type,unsigned c_long mount_flags,void *data)->i32
+
+    fn umount(char *target)->i32
+
+    fn umount2(char *target,i32 flags)->i32
+
+    fn ioperm(unsigned c_long from,unsigned c_long num,i32 turn_on)->i32
+
+    fn readahead(i32 fd,c_off_t offset,u64 count)->i32
+
+    fn setxattr(char *path,char *name,void *value,u64 size,i32 flags)->i32
+
+    fn lsetxattr(char *path,char *name,void *value,u64 size,i32 flags)->i32
+
+    fn fsetxattr(i32 fd,char *name,void *value,u64 size,i32 flags)->i32
+
+    fn getxattr(char *path,char *name,void *value,u64 size)->i32
+
+    fn lgetxattr(char *path,char *name,void *value,u64 size)->i32
+
+    fn fgetxattr(i32 fd,char *name,void *value,u64 size)->i32
+
+    fn listxattr(char *path,char *list,u64 size)->i32
+
+    fn llistxattr(char *path,char *list,u64 size)->i32
+
+    fn flistxattr(i32 fd,char *list,u64 size)->i32
+
+    fn removexattr(char *path,char *name)->i32
+
+    fn lremovexattr(char *path,char *name)->i32
+
+    fn fremovexattr(i32 fd,char *name)->i32
+
+    fn ioprio_set(i32 which,i32 who,i32 priority)->i32
+
+    fn ioprio_get(i32 which,i32 who)->i32
+
+    fn inotify_init()->i32
+
+    fn inotify_init1(i32 flags)->i32
+
+    fn inotify_add_watch(i32 fd,char *path,uint32_t mask)->i32
+
+    fn inotify_rm_watch(i32 fd,i32 wd)->i32
+
+    fn access(char *path,i32 mode)->i32
+
+    fn faccessat(i32 dir_fd,char *path,i32 mode,i32 flags)->i32
+
+    fn faccessat2(i32 dir_fd,char *path,i32 mode,i32 flags)->i32
+
+    fn quotactl(i32 op,char *special,i32 id,c_caddr_t addr)->i32
+
+    fn io_setup(u32 nr_events,c_aio_context_t *ctx_id)->i32
+
+    fn io_destroy(c_aio_context_t ctx_id)->i32
+
+    fn io_getevents(c_aio_context_t ctx_id,c_long min_nr,c_long nr,IoEvent *events,Timespec *timeout)->i32
+
+    fn io_submit(c_aio_context_t ctx_id,c_long nr,Iocb **iocb)->i32
+
+    fn io_cancel(c_aio_context_t ctx_id,Iocb *iocb,IoEvent *result)->i32
+
+    fn lookup_dcookie(u64 cookie,char *buffer,u64 len)->i32
+
+    fn epoll_create(i32 size)->i32
+
+    fn epoll_create1(i32 flags)->i32
+
+    fn epoll_wait(i32 epfd,EpollEvent *events,i32 max_events,i32 timeout)->i32
+
+    fn epoll_pwait(i32 epfd,EpollEvent *events,i32 max_events,i32 timeout,sigset_t *signal_mask)->i32
+
+    fn epoll_pwait2(i32 epfd,EpollEvent *events,i32 max_events,Timespec * timeout,sigset_t *signal_mask)->i32
+
+    fn epoll_ctl(i32 epfd,i32 op,i32 fd,EpollEvent *event)->i32
+
+    fn splice(i32 fd_in,c_off_t *offset_in,i32 fd_out,c_off_t *offset_out,u64 len,u32 flags)->i32
+
+    fn tee(i32 fd_in,i32 fd_out,u64 len,u32 flags)->i32
+
+    fn posix_fadvise64(i32 fd,c_off_t offset,c_off_t len,i32 advice)->i32
+
+    fn utime(char *path,UtimBuf *times)->i32
+
+    fn utimes(char *path,Timeval *times)->i32
+
+    fn utimensat(i32 dir_fd,char *path,Timespec *times,i32 flags)->i32
+
+    fn futimens(i32 fd,Timespec *times)->i32
+
+    fn sync_file_range(i32 fd,c_off_t offset,c_off_t count,u32 flags)->i32
+
+    fn fallocate(i32 fd,i32 mode,c_off_t offset,c_off_t len)->i32
+
+    fn fanotify_init(u32 flags,u32 event_f_flags)->i32
+
+    fn fanotify_mark(i32 fd,u32 flags,u64 mask,i32 dir_fd,char *path)->i32
+
+    fn name_to_handle_at(i32 dir_fd,char *path,FileHandle *handle,i32 *mount_id,i32 flags)->i32
+
+    fn open_by_handle_at(i32 mount_fd,FileHandle *handle,i32 flags)->i32
+
+    fn copy_file_range(i32 fd_in,c_off_t *offset_in,i32 fd_out,c_off_t *offset_out,u64 len,u32 flags)->i32
+
+    fn statx(i32 dir_fd,char *path,i32 flags,u32 mask,Statx *statxbuf)->i32
+
+    fn close_range(u32 first,u32 last,i32 flags)->i32
+
+    fn mount_setattr(i32 dir_fd,char *path,u32 flags,MountAttr *attr,u64 size)->i32
+
+    fn mkfifo(char *name,c_mode_t mode)->i32
+
+    fn mkfifoat(i32 dir_fd,char *name,c_mode_t mode)->i32
+
+    fn opendir(char *str)->Dirent *
+
+    fn fdopendir(Dir *fd)->Dirent *
+
+    fn readdir(DIR *dir_ptr)->Dirent *
+
+    fn rewinddir(DIR *dir_ptr)->void
+
+    fn closedir(DIR *dir_ptr)->i32
+
+    fn dir_fd(DIR *dir_ptr)->i32
+
+:
+
+

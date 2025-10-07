@@ -1,0 +1,50 @@
+
+
+extern "C":
+    fn shmget(c_key_t key,c_size_t size,c_int flags)->c_int
+
+    fn shmat(c_int id, void *addr, c_int flags)->void *
+
+    fn shmctl(c_int id, c_int op, ShmidDs *buf)->c_int
+
+    fn shmdt(void *addr)->c_int
+
+    fn msgget(c_key_t key, c_int flags)->c_int
+
+    fn msgsnd(c_int id, void *buf,c_size_t buflen,c_int flags)->c_int
+
+    fn msgrcv(c_int id,void *buf,c_size_t buflen,c_long type,c_int flags)->c_int
+
+    fn msgctl(c_int id, c_int op, MsqidDs *buf)->c_int
+
+    fn mq_open_v1(c_char *name,c_int flags)->c_int
+
+    fn mq_open_v2(c_char *name,c_int flags,c_mode_t mode,MqAttr *attr)->c_int
+
+    fn mq_unlink(c_char *name)->c_int
+
+    fn mq_timedsend(c_mqd_t fd, c_char *buf,c_size_t buflen, c_uint priority,Timespec *timeout)->c_int
+
+    fn mq_timedreceive(c_mqd_t fd,c_char *buf,c_size_t buflen, c_uint *priority,Timespec *timeout)->c_int
+
+    fn mq_notify(c_mqd_t fd, Sigevent *sigevent)->c_int
+
+    fn mq_getsetattr(c_mqd_t fd,MqAttr *new_attr,MqAttr *old_attr)->c_int
+
+    fn semget(c_key_t key, c_int num, c_int flags)->
+
+    fn semop(c_int id, Sembuf *sops, c_size_t num)->c_int
+
+    fn semtimedop(c_int id, Sembuf *sops, c_size_t num,Timespec *timeout)->c_int
+
+    fn semctl(c_int id, c_int num,c_int op)->c_int
+
+    fn futex(u32 *uaddr, c_int futex_op, u32 val,Timespec *timeout,u32 *uaddr2, u32 val3)->c_int
+
+    fn set_robust_list(RobustListHead *head,c_size_t len)->c_int
+
+    fn get_robust_list(c_int pid,RobustListHead **head, c_size_t *len)->c_int
+
+:
+
+

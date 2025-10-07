@@ -1,0 +1,65 @@
+@include "net/socket/socket.c4"
+
+struct TcpClient:
+    i32 fd
+    i32 code
+:
+
+
+
+impl TcpClient:
+    fn new(i8 *host,i8 *port):
+        var Addrinfo hints
+        var Addrinfo *result
+
+        memset(&hints,0,sizeof(hints))
+
+        hints.ai_socktype = SocketType::SOCK_STREAM
+
+        self->code = getaddrinfo(host,port,&hints,&result)
+
+        if self->code != 0:
+            return
+        :
+
+        defer freeaddrinfo(result)
+
+        self->code = socket(result->ai_family,result->ai_socktype,result->ai_protocol)
+
+        if self->code == -1:
+            return
+        :
+
+        self->fd = self->code
+
+
+        self->code = connect(self->fd,result->ai_addr,result->ai_addrlen)
+
+        if self->code == -1:
+            close(self->fd)
+            return
+        :
+    :
+
+    fn recv(void *buf,u64 size)->i64:
+        return recv(self.fd,buf,size,0)
+    :
+
+    fn send(void *buf,u64 size)->i64:
+        return send(self.fd,buf,size,0)
+    :
+
+    fn recv_all(void *buf,u64 size)->i64:
+        return recv_all(self.fd,buf,size)
+    :
+
+    fn send_all(void *buf,u64 size)->i64:
+        return send_all(self.fd,buf,size)
+    :
+
+
+    fn ~new():
+        close(self->fd)
+    :
+:
+

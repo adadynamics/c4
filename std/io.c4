@@ -1,0 +1,8 @@
+
+
+extern "C":
+
+    fn puts(char *str)->i32
+
+:
+

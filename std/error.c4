@@ -1,0 +1,5 @@
+
+
+extern "C":
+    fn strerror(i32 code)->char *
+:

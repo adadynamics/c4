@@ -1,0 +1,30 @@
+
+extern "C":
+    fn reboot(c_int magic,c_int magic2,c_int op,void *arg)->c_int
+
+    fn delete_module(c_char *name,c_uint flags)->c_int
+
+    fn finit_module(c_int fd,c_char *param_values,c_int flags)->c_int
+
+    fn init_module(void *module_image,c_ulong len,c_char *param_value)->c_int
+
+    fn kexec_file_load(c_int kernel_fd, c_int initrd_fd,c_ulong cmdline_len, c_char *cmdline,c_ulong flags)->c_int
+
+    fn kexec_load(c_ulong entry,c_ulong nr_segments,KexecSegment *segments,c_ulong flags)->c_int
+
+    fn syslog(c_int type,c_char *bufp,c_int len)->c_int
+
+    fn sysinfo(Sysinfo *info)->c_int
+
+    fn getrandom(void *buf,c_size_t buflen,c_uint flags)->c_int
+
+    fn setdomainname(c_char *name,c_size_t len)->c_int
+
+    fn getdomainname(c_char *name,c_size_t len)->c_int
+
+    fn sethostname(c_char *name,c_size_t len)->c_int
+
+    fn gethostname(c_char *name,c_size_t len)->c_int
+
+:
+

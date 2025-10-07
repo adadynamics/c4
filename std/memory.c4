@@ -1,0 +1,5 @@
+
+extern "C":
+    
+    fn memset(void *target,i32 value,u64 count)->void *
+:

@@ -1,0 +1,48 @@
+
+
+extern "C":
+    fn pause()->c_int
+
+    fn nanosleep(Timespec *duration,Timespec *remaining)->c_int
+
+    fn getitimer(c_int which,Itimerval *current)->c_int
+
+    fn setitimer(c_int which,Itimerval *new_val,Itimerval *old_val)->c_int
+
+    fn alarm(c_uint seconds)->c_int
+
+    fn gettimeofday(Timeval *tv,Timezone *tz)->c_int
+
+    fn settimeofday(Timeval *tv,Timezone *tz)->c_int
+
+    fn timer_create(c_clockid_t clockid,Sigevent *sigevent,c_timer_t *timerid)->c_int
+
+    fn timer_settime(c_timer_t timerid, c_int flags,Itimerspec *new_spec,Itimerspec *old_spec)->c_int
+
+    fn timer_gettime(c_timer_t timerid, Itimerspec *current)->c_int
+
+    fn timer_getoverrun(c_timer_t timerid)->c_int
+
+    fn timer_delete(c_timer_t timerid)->c_int
+
+    fn clock_settime(c_clockid_t clockid,Timespec *tp)->c_int
+
+    fn clock_gettime(c_clockid_t clockid,Timespec *tp)->c_int
+
+    fn clock_getres(c_clockid_t clockid,Timespec *res)->c_int
+
+    fn clock_nanosleep(c_clockid_t clockid, c_int flags,Timespec *duration,Timespec *remaining)->c_int
+
+    fn clock_adjtime(c_clockid_t clockid,Timex *buf)->c_int
+
+    fn adjtimex(Timex *buf)->c_int
+
+    fn time(c_time_t *timep)->c_int
+
+    fn timerfd_settime(c_int fd,c_int flags,Itimerspec *new_spec,Itimerspec *old_spec)->c_int
+
+    fn timerfd_gettime(c_int fd,Itimerspec *current)->c_int
+
+    fn timerfd_create(c_int clockid, c_int flags)->c_int
+:
+

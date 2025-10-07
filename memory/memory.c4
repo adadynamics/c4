@@ -1,0 +1,66 @@
+
+
+extern "C":
+    fn brk(void *addr)->c_int
+
+    fn sbrk(c_intptr_t increment)->void *
+
+    fn madvise(void *addr,c_size_t length,c_int advice)->c_int
+
+    fn mincore(void *addr,c_size_t length,c_uchar *vec)->c_int
+
+    fn get_mempolicy(c_int *mode,c_ulong *node_mask,c_ulong max_node,void *addr,c_ulong flags)->c_int
+
+    fn keyctl(c_int operation,c_ulong arg2,c_ulong arg3,c_ulong arg4,c_ulong arg5)->c_int
+
+    fn membarrier(c_int cmd,c_uint flags,c_int cpu_id)->c_int
+
+    fn memfd_secret(c_uint flags)->c_int
+
+    fn userfaultfd(c_int flags)->c_int
+
+    fn mbind(void *addr,c_ulong length,c_int mode,c_ulong *node_mask,c_ulong max_node,c_uint flags)->c_int
+
+    fn memfd_create(char *name,c_uint flags)->c_int
+
+    fn migrate_pages(c_int pid,c_ulong max_node,c_ulong *old_nodes,c_ulong *new_nodes)->c_int
+
+    fn mlock2(void *addr,c_size_t length,c_uint flags)->c_int
+
+    fn mremap(void *old_address,c_size_t old_size,c_size_t new_size,c_int flags,void *new_address)->void *
+
+    fn move_pages(c_int pid,c_ulong count,void **pages,c_int *nodes,c_int *status,c_int flags)->c_int
+
+    fn request_key(char *type,char *description,char *callout_info,c_key_serial_t dest_keyring)->c_int
+
+    fn pkey_alloc(c_uint flags,c_uint access_rights)->c_int
+
+    fn pkey_free(c_int pkey)->c_int
+
+    fn pkey_mprotect(void *addr,c_size_t length,c_int protection,c_int pkey)->c_int
+
+    fn set_mempolicy(c_int mode,c_ulong *node_mask,c_ulong max_node)->c_int
+
+    fn swapoff(char *path)->c_int
+
+    fn swapon(char *path,c_int swapflags)->c_int
+
+    fn vmsplice(c_int fd,Iovec *iov,c_size_t nr_segs,c_uint flags)->c_int
+
+    fn mlock(void *addr,c_size_t length)->c_int
+
+    fn mlockall(c_int flags)->c_int
+
+    fn mmap(void *addr,c_size_t length,c_int protection,c_int flags,c_int fd,c_off_t offset)->c_int
+
+    fn mprotect(void *addr,c_size_t length,c_int protection)->c_int
+
+    fn msync(void *addr,c_size_t length,c_int flags)->c_int
+
+    fn munlock(void *addr,c_size_t length)->c_int
+
+    fn munlockall()->c_int
+
+    fn munmap(void *addr,c_size_t length)->c_int
+:
+

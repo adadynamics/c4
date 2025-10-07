@@ -1,0 +1,160 @@
+@include "std/io.c4"
+@include "std/memory.c4"
+@include "std/error.c4"
+
+enum SocketType:
+    SOCK_STREAM = 1    /* Sequenced, reliable, connection-based byte streams. */
+    SOCK_DGRAM  = 2    /* Connectionless, unreliable datagrams of fixed max length. */
+    SOCK_RAW    = 3    /* Raw protocol interface. */
+    SOCK_RDM    = 4    /* Reliably-delivered messages. */
+    SOCK_SEQPACKET = 5 /* Sequenced, reliable, connection-based, datagrams of fixed max length. */
+    SOCK_DCCP   = 6    /* Datagram Congestion Control Protocol. */
+    SOCK_PACKET = 10   /* Linux specific way of getting packets at the dev level. */
+:
+
+struct Sockaddr:
+    u16 sa_family
+    char []sa_data
+:
+
+
+struct Addrinfo:
+    i32 ai_flags
+    i32 ai_family
+    i32 ai_socktype
+    i32 ai_protocol
+    i32 ai_addrlen
+    Sockaddr *ai_addr
+    char *ai_canonname
+    Addrinfo *ai_next
+:
+
+
+fn socket_init()->bool:
+    return true
+:
+
+fn socket_fini()->bool:
+    return true
+:
+
+extern "C":
+    fn socket(i32 domain,i32 type,i32 protocol)->i32
+
+    fn socketpair(i32 domain,i32 type,i32 protocol,i32 fds[2])->i32
+
+    fn bind(i32 fd,Sockaddr *addr,i32 addrlen)->i32
+
+    fn connect(i32 fd,Sockaddr *addr,i32 addrlen)->i32
+
+    fn listen(i32 fd,i32 backlog)->i32
+
+    fn accept(i32 fd,Sockaddr *addr,i32 *addrlen)->i32
+
+    fn accept4(i32 fd,Sockaddr *addr,i32 *addrlen,i32 flags)->i32
+
+    fn recv(i32 fd,void *buf,u64 buflen,i32 flags)->i64
+
+    fn send(i32 fd,void *buf,u64 buflen,i32 flags)->i64
+
+    fn recvfrom(i32 fd,void *buf,u64 buflen,i32 flags,Sockaddr *addr,i32 addrlen)->i64
+
+    fn sendto(i32 fd,void *buf,u64 buflen,i32 flags,Sockaddr *addr,i32 addrlen)->i64
+
+    fn shutdown(i32 fd,i32 how)->i32
+
+    fn close(i32 fd)->i32
+
+    fn getsockopt(i32 fd,i32 level,i32 optname,void *optval,i32 *optlen)->i32
+
+    fn setsockopt(i32 fd,i32 level,i32 optname,void *optval,i32 optlen)->i32
+
+    fn getsockname(i32 fd,Sockaddr *addr,i32 *addrlen)->i32
+
+    fn getpeername(i32 fd,Sockaddr *addr,i32 *addrlen)->i32
+
+    fn getaddrinfo(i8 *host,i8 *service,Addrinfo *hints,Addrinfo **result)->i32
+
+    fn freeaddrinfo(Addrinfo *result)->void
+
+    fn getnameinfo(Sockaddr *addr,i32 addrlen,i8 *host,i32 hostlen,i8 *service,i32 servicelen,i32 flags)->i32
+
+    fn htons(u16 number)->u16
+
+    fn htonl(u32 number)->u32
+
+    fn ntohs(u16 number)->u16
+
+    fn ntohl(u32 number)->u32
+:
+
+
+
+/*****************************************************************************
+ *      receives size bytes,blocks until all the bytes are received          *
+ *****************************************************************************/
+
+fn recv_all(i32 fd,void *buf,u64 size)->i64:
+    u64 numread = 0
+    u64 tmp_size = 0
+    void *tmp_buf = null
+
+    if buf == null:
+        return -1
+    :
+
+    tmp_buf = buf
+    tmp_size = size
+
+    loop:
+        numread = recv(fd,tmp_buf,tmp_size,0)
+        if numread == -1:
+            return numread
+        :
+        elif numread == 0:
+            break
+        :
+
+        tmp_buf += numread
+        tmp_size -= numread
+    :
+
+    return cast<i64>(tmp_buf - buf)
+:
+
+
+
+
+/*****************************************************************************
+ *         sends size bytes,blocks until all the bytes are sent              *
+ *****************************************************************************/
+
+fn send_all(i32 fd,void *buf,u64 size)->i64:
+    u64 numwrite = 0
+    u64 tmp_size = 0
+    void *tmp_buf = null
+
+    if buf == null:
+        return -1
+    :
+
+    tmp_buf = buf
+    tmp_size = size
+
+    loop:
+        numwrite = send(fd,tmp_buf,tmp_size,0)
+        if numwrite == -1:
+            return numwrite
+        :
+        elif numwrite == 0:
+            break
+        :
+
+        tmp_buf += numwrite
+        tmp_size -= numwrite
+    :
+
+    return cast<i64>(tmp_buf - buf)
+:
+
+

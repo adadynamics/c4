@@ -1,0 +1,36 @@
+
+
+extern "C":
+    fn getpwnam(c_char *name)->Passwd *
+
+    fn getpwuid(c_uid_t uid)->Passwd *
+
+    fn getpwent()->Passwd *
+
+    fn setpwent()->void
+
+    fn endpwent()->void
+
+    fn getgrnam(c_char *name)->Group *
+
+    fn getgrgid(c_gid_t gid)->Group *
+
+    fn getgrent()->Group *
+
+    fn setgrent()->void
+
+    fn endgrent()->void
+
+    fn getspnam(c_char *name)->Spwd *
+
+    fn getspent()->Spwd *
+
+    fn setspent()->void
+
+    fn endspent()->void
+
+    fn crypt(c_char *key,c_char *salt)->c_char *
+
+:
+
+
