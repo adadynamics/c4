@@ -1,0 +1,171 @@
+
+
+extern "C":
+    fn capget(c_cap_user_header_t hdrp,c_cap_user_data_t datap)->c_int
+
+    fn capset(c_cap_user_header_t hdrp,c_cap_user_data_t datap)->c_int
+
+    fn clone3(CloneArgs *cl_args,c_size_t size)->c_int
+
+    fn clone(fn func(void *)->c_int,void *stack,c_int flags,void *arg,c_pid_t *parent_tid,void *tls,c_pid_t *child_tid)->c_int
+
+    fn execve(c_char *pathname, c_char *[]argv,c_char *[]envp)->c_int
+
+    fn execveat(c_int dirfd,c_char *pathname, c_char *[]argv,c_char *[]envp,c_int flags)->c_int
+
+    fn exit(c_int status)->c_int
+
+    fn exit_group(c_int status)->c_int
+
+    fn fork()->c_int
+
+    fn vfork()->c_int
+
+    fn getcpu(c_uint *cpu,c_uint *node)->c_int
+
+    fn getegid()->c_int
+
+    fn geteuid()->c_int
+
+    fn getgid()->c_int
+
+    fn getgroups(c_int size,c_gid_t []list)->c_int
+
+    fn getpgid(c_pid_t pid)->c_int
+
+    fn getpgrp()->c_int
+
+    fn getpid()->c_int
+
+    fn getppid()->c_int
+
+    fn getpriority(c_int which,c_id_t who)->c_int
+
+    fn getresgid(c_gid_t *rgid,c_gid_t *egid,c_gid_t *sgid)->c_int
+
+    fn getresuid(c_uid_t *ruid,c_uid_t *euid,c_uid_t *suid)->c_int
+
+    fn getrlimit(c_int resource,Rlimit *rlim)->c_int
+
+    fn getrusage(c_int who,Rusage *usage)->c_int
+
+    fn getsid(c_pid_t pid)->c_int
+
+    fn get_thread_area(UserDesc *u_info)->c_int
+
+    fn gettid()->c_int
+
+    fn getuid()->c_int
+
+    fn kill(c_pid_t pid,c_int sig)->c_int
+
+    fn pidfd_getfd(c_int pidfd,c_int targetfd,c_uint flags)->c_int
+
+    fn pidfd_open(c_pid_t pid,c_uint flags)->c_int
+
+    fn prctl(c_int op,c_ulong arg2,c_ulong arg3,c_ulong arg4, c_ulong arg5)->c_int
+
+    fn prlimit(c_pid_t pid, c_int resource,Rlimit *new_limit,Rlimit *old_limit)->c_int
+
+    fn process_madvise(c_int pidfd,Iovec *iovec,c_size_t n,c_int advice,c_uint flags)->c_int
+
+    fn process_vm_readv(c_pid_t pid,Iovec *local_iov,c_ulong liovcnt,Iovec *remote_iov,c_ulong riovcnt,c_ulong flags)
+
+    fn process_vm_writev(c_pid_t pid,Iovec *local_iov,c_ulong liovcnt,Iovec *remote_iov,c_ulong riovcnt,c_ulong flags)
+
+    fn sched_getaffinity(c_pid_t pid,c_size_t cpusetsize,c_cpu_set_t *mask)->c_int
+
+    fn sched_getattr(c_pid_t pid,SchedAttr *attr,c_uint size, c_uint flags)->c_int
+
+    fn sched_getparam(c_pid_t pid,SchedParam *param)->c_int
+
+    fn sched_get_priority_max(c_int policy)->c_int
+
+    fn sched_get_priority_min(c_int policy)->c_int
+
+    fn sched_getscheduler(c_pid_t pid)->c_int
+
+    fn sched_rr_get_interval(c_pid_t pid, Timespec *tp)->c_int
+
+    fn sched_setaffinity(c_pid_t pid,c_size_t cpusetsize,c_cpu_set_t *mask)->c_int
+
+    fn sched_setattr(c_pid_t pid, SchedAttr *attr,c_uint flags)->c_int
+
+    fn sched_setparam(c_pid_t pid,SchedParam *param)->c_int
+
+    fn sched_setscheduler(c_pid_t pid, c_int policy,SchedParam *param)->c_int
+
+    fn sched_yield()->c_int
+
+    fn setgid(c_gid_t gid)->c_int
+
+    fn setgroups(c_size_t size,c_gid_t *list)->c_int
+
+    fn initgroups(c_char *user,c_gid_t group)->c_int
+
+    fn setns(c_int fd,c_int nstype)->c_int
+
+    fn setpgid(c_pid_t pid, c_pid_t pgid)->c_int
+
+    fn setpriority(c_int which,c_id_t who, c_int prio)->c_int
+
+    fn setregid(c_gid_t rgid, c_gid_t egid)->c_int
+
+    fn setresgid(c_gid_t rgid,c_gid_t egid,c_gid_t sgid)->c_int
+
+    fn setresuid(c_uid_t ruid,c_uid_t euid,c_uid_t suid)->c_int
+
+    fn setreuid(c_uid_t ruid,c_uid_t euid)->c_int
+
+    fn setrlimit(c_int resource,Rlimit *rlim)->c_int
+
+    fn setsid()->c_int
+
+    fn set_thread_area(UserDesc *u_info)->c_int
+
+    fn set_tid_address(c_int *tidptr)->c_int
+
+    fn setuid(c_uid_t uid)->c_int
+
+    fn seteuid(c_uid_t uid)->c_int
+
+    fn setegid(c_gid_t gid)->c_int
+
+    fn tgkill(c_pid_t tgid,c_pid_t tid,c_int sig)->c_int
+
+    fn unshare(c_int flags)->c_int
+
+    fn wait(c_int *status)->c_int
+
+    fn waitpid(c_pid_t pid,c_int *status,c_int options)->c_int
+
+    fn waitid(c_idtype_t idtype,c_id_t id,c_siginfo_t *info,c_int options)->c_int
+
+    fn wait4(c_pid_t pid,c_int *wstatus,c_int options,Rusage *rusage)->c_int
+
+    fn wait3(c_int *wstatus,c_int options,Rusage *rusage)->c_int
+
+    fn bpf(c_int cmd,BpfAttr *attr,c_uint size)->c_int
+
+    fn modify_ldt(c_int func,void *ptr,c_ulong bytecount)->c_int
+
+    fn seccomp(c_uint operation,c_uint flags,void *args)->c_int
+
+    fn kcmp(c_pid_t pid1,c_pid_t pid2,c_int type,c_ulong idx1,c_ulong idx2)->c_int
+
+    fn getenv(c_char *name)->c_char *
+
+    fn setenv(c_char *name,c_char *value,c_int overwrite)->c_int
+
+    fn unsetenv(c_char *name)->c_int
+
+    fn clearenv()->c_int
+
+    fn times(Tms *buf)->c_int
+
+    fn acct(c_char *acctfile)->c_int
+
+:
+
+
+
