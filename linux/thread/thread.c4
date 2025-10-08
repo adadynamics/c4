@@ -1,0 +1,26 @@
+@include "linux/thread/native.c4"
+
+
+
+fn adl_thread_start(ThreadHandle *handle,fn routine(void *)->void *,void *argument)->i64:
+    i64 ret = pthread_create(&handle->thread_id,NULL,routine,argument)
+    if ret != 0:
+        return -1
+    :
+
+    return 0
+:
+
+
+fn adl_thread_detach(ThreadHandle handle)->i64:
+    i64 ret = pthread_detach(handle.get_thread_id())
+    
+    if ret != 0:
+        return -1
+    :
+
+    return 0
+:
+
+
+
