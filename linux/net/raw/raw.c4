@@ -1,0 +1,122 @@
+@include "linux/net/socket/socket.c4"
+
+
+fn adl_raw_device_init(SocketProtocol protocol)->i64:
+    return socket(SocketProtocolFamily::PF_PACKET,SocketType::SOCK_RAW,htons(protocol))
+:
+
+fn adl_raw_device_fini(SOCKET_DESCRIPTOR fd)->i64:
+    return close(fd)
+:
+
+
+fn adl_raw_device_get_interface_index(SOCKET_DESCRIPTOR fd,Ifreq *ifr)->i64:
+    return ioctl(fd,NetDevice::SIOCGIFINDEX,ifr)
+:
+
+
+fn adl_raw_device_set_promisc(SOCKET_DESCRIPTOR fd,Ifreq *ifr)->i64:
+    i64 ret = ioctl(fd,NetDevice::SIOCGIFFLAGS,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    ifr->set_flags(ifr->get_flags() | NetDeviceFlags::IFF_PROMISC)
+
+    ret = ioctl(fd,NetDevice::SIOCSIFFLAGS,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    return 0
+:
+
+
+fn adl_raw_device_unset_promisc(SOCKET_DESCRIPTOR fd,Ifreq *ifr)->i64:
+    i64 ret = ioctl(fd,NetDevice::SIOCGIFFLAGS,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    ifr->set_flags(ifr->get_flags() & ~NetDeviceFlags::IFF_PROMISC)
+
+    ret = ioctl(fd,NetDevice::SIOCSIFFLAGS,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    return 0
+:
+
+
+
+
+fn adl_raw_device_bind(SOCKET_DESCRIPTOR fd,Ifreq *ifr,SocketProtocol protocol)->i64:
+    SockaddrLL sll = SockaddrLL::new()
+    sll.set_interface_index(ifr->get_interface_index())
+    sll.set_family(SocketProtocolFamily::PF_PACKET)
+    sll.set_protocol(htons(protocol)
+
+    return bind(fd,cast<Sockaddr *>(&sll),sizeof(sll))
+:
+
+
+
+
+
+fn adl_raw_device_open(char *device,SocketProtocol protocol,Ifreq *ifr)->i64:
+    i64 ret = 0
+    i64 fd = 0
+
+    fd = adl_raw_device_init(protocol)
+    if fd == -1:
+        return -1
+    :
+
+    ifr->set_name(device)
+
+    ret = adl_raw_device_get_interface_index(fd,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    ret = adl_raw_device_set_promisc(fd,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    return adl_raw_device_bind(fd,ifr,protocol)
+:
+
+
+
+
+fn adl_raw_device_read(i64 fd,void *buffer,u64 size)->i64:
+    return recvfrom(fd,buffer,size,0,null,null)
+:
+
+
+
+fn adl_raw_device_write(i64 fd,void *buffer,u64 size)->i64:
+    return sendto(fd,buffer,size,0,null,null)
+:
+
+
+
+fn adl_raw_device_close(i64 fd,Ifreq *ifr)->i64:
+    i64 ret = 0
+
+    ret = adl_raw_device_unset_promisc(fd,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    return adl_raw_device_fini(fd)
+:
+
+
+
+
+
+
+
