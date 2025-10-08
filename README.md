@@ -10,7 +10,7 @@ simple and safer and as fast as c
 
 we aim to provide mechanisms instead of policies,which means our memory management philosophy is what we like to call "assisted manual memory management"
 
-how this works is as follows,we have two keywords [defer] and [scoped defer]
+how this works is as follows,we have two keywords `defer` and `scoped defer`
 
 defer works as Golang's defer works
 
@@ -23,7 +23,7 @@ defer works as Golang's defer works
 the `print("hello world")` is executed just before the fucntion returns
 
 
-the [scoped defer] works similarly but instead of being executed at the end of the function,the deferred function is executed at the end of the current scope
+the `scoped defer` works similarly but instead of being executed at the end of the function,the deferred function is executed at the end of the current scope
 
 
 
