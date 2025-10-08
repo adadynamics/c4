@@ -1,4 +1,4 @@
-@include "net/socket/socket.c4"
+@include "os/net/socket/socket.c4"
 
 struct TcpClient:
     i32 fd

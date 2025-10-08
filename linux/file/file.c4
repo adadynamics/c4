@@ -1,0 +1,162 @@
+@include "linux/file/native.c4"
+@include "linux/file/file_types.c4"
+@include "common.c4"
+
+fn adl_open(char *path,FileArguments args)->FILE_DESCRIPTOR:
+    return open(path,args.flags,args.mode)
+:
+
+
+fn adl_close(FILE_DESCRIPTOR fd)->i64:
+    return close(fd)
+:
+
+
+fn adl_read(FILE_DESCRIPTOR fd,void *buffer,u64 size)->i64:
+    return read(fd,buffer,size)
+:
+
+
+fn adl_write(FILE_DESCRIPTOR fd,void *buffer,u64 size)->i64:
+    return write(fd,buffer,size)
+:
+
+
+fn adl_read_all(FILE_DESCRIPTOR fd,void *buffer,u64 size)->i64:
+    u64 numread = 0 
+    u64 tmp_size = 0 
+    void *tmp_buffer = null
+
+    if buffer == null:
+        return -1
+    :   
+
+    tmp_buffer = buffer 
+    tmp_size = size
+
+    loop:
+        numread = adl_read(fd,tmp_buffer,tmp_size)
+        if numread == -1: 
+            return numread
+        :
+        elif numread == 0:
+            break
+        :
+
+        tmp_buffer += numread
+        tmp_size -= numread
+    :   
+
+    return cast<i64>(tmp_buffer - buffer)
+:
+
+
+fn adl_write_all(FILE_DESCRIPTOR fd,void *buffer,u64 size)->i64:
+    u64 numwrite = 0 
+    u64 tmp_size = 0 
+    void *tmp_buffer = null
+
+    if buffer == null:
+        return -1
+    :   
+
+    tmp_buffer = buffer 
+    tmp_size = size
+
+    loop:
+        numwrite = adl_write(fd,tmp_buffer,tmp_size)
+        if numwrite == -1: 
+            return numwrite
+        :
+        elif numread == 0:
+            break
+        :
+
+        tmp_buffer += numwrite
+        tmp_size -= numwrite
+    :   
+
+    return cast<i64>(tmp_buffer - buffer)
+:
+
+
+
+fn adl_seek(FILE_DESCRIPTOR fd,i64 offset,i32 whence)->i64:
+    return lseek(fd,offset,origin)
+:
+
+
+fn adl_truncate(char *path,u64 length)->i64:
+    return truncate(path,length)
+:
+
+
+fn adl_ftruncate(FILE_DESCRIPTOR fd,u64 length)->i64:
+    return ftruncate(fd,length)
+:
+
+
+fn adl_stat(char *path,Stat *info)->i32:
+    return stat(path,info)
+:
+
+
+fn adl_fstat(FILE_DESCRIPTOR fd,Stat *info)->i64:
+    return fstat(fd,info)
+:
+
+fn adl_lstat(char *path,Stat *info)->i64:
+    return lstat(path,info)
+:
+
+
+fn adl_access(char *path,FileArguments args)->i64:
+    return access(path,args.access)
+:
+
+
+fn adl_exists(char *path)->i64:
+    FileArguments args = FileArguments::new()
+    return adl_access(path,args)
+:
+
+fn adl_file_type(char *path)->i64:
+    Stat info = Stat::new()
+    
+    if FILE_IS_REGULAR(info.st_mode):
+        return FileType::REGULAR
+    :
+    elif FILE_IS_DIRECTORY(info.st_mode):
+        return FileType::DIRECTORY
+    :
+    else:
+        return FileType::UNKNOWN
+    :
+:
+
+
+fn adl_hard_link(char *link_path,char *target_path,FileArguments args)->i64:
+    return link(target_path,link_path)
+:
+
+fn adl_symbolic_link(char *link_path,char *target_path,FileArguments args)->i64:
+    return symlink(target_path,link_path)
+:
+
+
+fn adl_read_link(void *buffer,u64 size,char *path)->i64:
+    return readlink(path,buf,size)
+:
+
+
+fn adl_move_file(char *dst,char *src,FileArguments args)->i64:
+    return rename(src,dst)
+:
+
+
+fn adl_delete_file(char *path)->i64:
+    return unlink(path)
+:
+
+
+

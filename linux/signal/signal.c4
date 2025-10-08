@@ -1,0 +1,26 @@
+
+
+extern "C":
+    fn sigaction(c_int signum,Sigaction *newact,Sigaction *oldact)->c_int
+
+    fn sigpending(c_sigset_t *set)->c_int
+
+    fn sigprocmask(c_int how,c_sigset_t *newset,c_sigset_t *oldset)->c_int
+
+    fn sigsuspend(c_sigset_t *mask)->c_int
+
+    fn sigtimedwait(c_sigset_t *set,siginfo_t *info,Timespec *timeout)->c_int
+
+    fn sigwaitinfo(c_sigset_t *set,siginfo_t *info)->c_int
+
+    fn signal(c_int signum,fn handler(c_int)->void)->fn (c_int)->void
+
+    fn pidfd_send_signal(c_int pidfd,c_int sig,siginfo_t *info,c_uint flags)->c_int
+
+    fn eventfd(c_uint initval,c_int flags)->c_int
+
+    fn signalfd(c_int fd,c_sigset_t *mask,c_int flags)->c_int
+
+    fn sigaltstack(c_stack_t *newstack,c_stack_t *oldstack)->c_int
+:
+

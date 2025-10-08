@@ -1,0 +1,154 @@
+
+
+extern "C":
+    fn pthread_attr_destroy(c_pthread_attr_t *attr)->c_int
+
+    fn pthread_getcpuclockid(c_pthread_t thread, c_clockid_t *clockid)->c_int
+
+    fn pthread_attr_getaffinity_np(c_pthread_attr_t *attr,c_size_t cpusetsize,c_cpu_set_t *cpuset)->c_int
+
+    fn pthread_getname_np(c_pthread_t thread, c_char *name,c_size_t size)->c_int
+
+    fn pthread_attr_getdetachstate(c_pthread_attr_t *attr,c_int *detachstate)->c_int
+
+    fn pthread_getschedparam(c_pthread_t thread,c_int *policy,SchedParam *param)->c_int
+
+    fn pthread_attr_getguardsize(c_pthread_attr_t *attr,c_size_t *guardsize)->c_int
+
+    fn pthread_join(c_pthread_t thread,void **retval)->c_int
+
+    fn pthread_attr_getinheritsched(c_pthread_attr_t *attr,c_int *inheritsched)->c_int
+
+    fn pthread_kill(c_pthread_t thread,c_int sig)->c_int
+
+    fn pthread_attr_getschedparam(c_pthread_attr_t *attr,SchedParam *param)->c_int
+
+    fn pthread_attr_getschedpolicy(c_pthread_attr_t *attr,c_int *policy)->c_int
+
+    fn pthread_mutexattr_getpshared(c_pthread_mutexattr_t *attr,c_int *pshared)->c_int
+
+    fn pthread_attr_getscope(c_pthread_attr_t *attr,c_int *scope)->c_int
+
+    fn pthread_mutexattr_getrobust(c_pthread_mutexattr_t *attr,c_int *robustness)->c_int
+
+    fn pthread_attr_getsigmask_np(c_pthread_attr_t *attr,sigset_t *sigmask)->c_int
+
+    fn pthread_attr_getstack(c_pthread_attr_t *attr,void **stackaddr,c_size_t *stacksize)->c_int
+
+    fn pthread_mutexattr_setpshared(c_pthread_mutexattr_t *attr,c_int pshared)->c_int
+
+    fn pthread_mutexattr_setrobust(c_pthread_mutexattr_t *attr,c_int robustness)->c_int
+
+    fn pthread_attr_getstacksize(c_pthread_attr_t *attr,c_size_t *stacksize)->c_int
+
+    fn pthread_attr_init(c_pthread_attr_t *attr)->c_int
+
+    fn pthread_mutex_consistent(c_pthread_mutex_t *mutex)->c_int
+
+    fn pthread_attr_setaffinity_np(c_pthread_attr_t *attr,c_size_t cpusetsize,c_cpu_set_t *cpuset)->c_int
+
+    fn pthread_attr_setdetachstate(c_pthread_attr_t *attr,c_int detachstate)->c_int
+
+    fn pthread_rwlockattr_getkind_np(c_pthread_rwlockattr_t *attr,c_int *pref)->c_int
+
+    fn pthread_attr_setguardsize(c_pthread_attr_t *attr,c_size_t guardsize)->c_int
+
+    fn pthread_rwlockattr_setkind_np(c_pthread_rwlockattr_t *attr,c_int pref)->c_int
+
+    fn pthread_attr_setinheritsched(c_pthread_attr_t *attr,c_int inheritsched)->c_int
+
+    fn pthread_self()->c_int
+
+    fn pthread_attr_setschedparam(c_pthread_attr_t *attr,SchedParam *param)->c_int
+
+    fn pthread_setaffinity_np(c_pthread_t thread,c_size_t cpusetsize,c_cpu_set_t *cpuset)->c_int
+
+    fn pthread_attr_setschedpolicy(c_pthread_attr_t *attr,c_int policy)->c_int
+
+    fn pthread_setattr_default_np(c_pthread_attr_t *attr)->c_int
+
+    fn pthread_attr_setscope(c_pthread_attr_t *attr,c_int scope)->c_int
+
+    fn pthread_setcancelstate(c_int state,c_int *oldstate)->c_int
+
+    fn pthread_attr_setsigmask_np(c_pthread_attr_t *attr,sigset_t *sigmask)->c_int
+
+    fn pthread_setcanceltype(c_int type,c_int *oldtype)->c_int
+
+    fn pthread_attr_setstack(c_pthread_attr_t *attr,void *stackaddr,c_size_t stacksize)->c_int
+
+    fn pthread_setconcurrency(c_int new_level)->c_int
+
+    fn pthread_setname_np(c_pthread_t thread,c_char *name)->c_int
+
+    fn pthread_attr_setstacksize(c_pthread_attr_t *attr,c_size_t stacksize)->c_int
+
+    fn pthread_setschedparam(c_pthread_t thread,c_int policy,SchedParam *param)->c_int
+
+    fn pthread_cancel(c_pthread_t thread)->c_int
+
+    fn pthread_setschedprio(c_pthread_t thread,c_int prio)->c_int
+
+    fn pthread_sigmask(c_int how,sigset_t *set,sigset_t *oldset)->c_int
+
+    fn pthread_sigqueue(c_pthread_t thread,c_int sig,Sigval value)->c_int
+
+    fn pthread_spin_destroy(pthread_spinlock_t *lock)->c_int
+
+    fn pthread_spin_init(pthread_spinlock_t *lock,c_int pshared)->c_int
+
+    fn pthread_create(c_pthread_t *thread,c_pthread_attr_t *attr,fn start_routine(void *)->void *,void *arg)
+
+    fn pthread_spin_lock(pthread_spinlock_t *lock)->c_int
+
+    fn pthread_detach(c_pthread_t thread)->c_int
+
+    fn pthread_spin_trylock(pthread_spinlock_t *lock)->c_int
+
+    fn pthread_equal(c_pthread_t t1,c_pthread_t t2)->c_int
+
+    fn pthread_spin_unlock(pthread_spinlock_t *lock)->c_int
+
+    fn pthread_exit(void *retval)->c_int
+
+    fn pthread_testcancel()->c_int
+
+    fn pthread_getaffinity_np(c_pthread_t thread,c_size_t cpusetsize,c_cpu_set_t *cpuset)->c_int
+
+    fn pthread_timedjoin_np(c_pthread_t thread,void **retval,Timespec *abstime)->c_int
+
+    fn pthread_getattr_default_np(c_pthread_attr_t *attr)->c_int
+
+    fn pthread_tryjoin_np(c_pthread_t thread,void **retval)->c_int
+
+    fn pthread_getattr_np(c_pthread_t thread,c_pthread_attr_t *attr)->c_int
+
+    fn pthread_getconcurrency()->c_int
+
+    fn pthread_mutex_init(c_pthread_mutex_t *mutex,c_pthread_mutexattr_t *attr)->c_int
+
+    fn pthread_mutex_destroy(c_pthread_mutex_t *mutex)->c_int
+
+    fn pthread_mutex_lock(c_pthread_mutex_t *mutex)->c_int
+
+    fn pthread_mutex_trylock(c_pthread_mutex_t *mutex)->c_int
+
+    fn pthread_mutex_timedlock(c_pthread_mutex_t *mutex,Timespec *abstime)->c_int
+
+    fn pthread_mutex_unlock(c_pthread_mutex_t *mutex)->c_int
+
+    fn pthread_cond_init(c_pthread_cond_t *cond, c_pthread_condattr_t *attr)->c_int
+
+    fn pthread_cond_destroy(c_pthread_cond_t *cond)->c_int
+
+    fn pthread_cond_wait(c_pthread_cond_t *cond, c_pthread_mutex_t *mutex)->c_int
+
+    fn pthread_cond_timedwait(c_pthread_cond_t *cond, c_pthread_mutex_t *mutex, Timespec *abstime)->c_int
+
+    fn pthread_cond_signal(c_pthread_cond_t *cond)->c_int
+
+    fn pthread_cond_broadcast(c_pthread_cond_t *cond)->c_int
+
+:
+
+
