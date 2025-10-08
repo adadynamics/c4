@@ -1,0 +1,92 @@
+@include "linux/file/native.c4"
+@include "linux/file/directory_types.c4"
+@include "common.c4"
+
+
+
+fn adl_create_directory(char *path,DirectoryArguments args)->i64:
+    return mkdir(path,args.mode)
+:
+
+fn adl_delete_directory(char *path)->i64:
+    return rmdir(path)
+:
+
+fn adl_get_current_directory(char *buffer,u64 size)->i64:
+    char *tmp = getcwd(buffer,size)
+    if tmp == null:
+        return -1
+    :
+
+    return 0
+:
+
+fn adl_set_current_directory(char *path)->i64:
+    return chdir(path)
+:
+
+
+fn adl_find_first_file(char *path,DirectoryEntry *buffer)->DirectoryDescriptor:
+    c_DIR dir_ptr = opendir(path)
+    if dir_ptr == null:
+        return DirectoryDecriptor::new(null,null)
+    :
+
+
+    Dirent *dirent = null
+
+    dirent = readdir(dir_ptr)
+    if dirent == null:
+        return DirectoryDescriptor::new(null,null)
+    :
+
+    String str = String::new(path)
+    str.append("/")
+    str.append(dirent.get_name())
+
+    Stat info = Stat::new()
+
+    if stat(str.get_c_string(),&info) == -1:
+        return DirectoryDescriptor::new(null,null)
+    :
+    
+    buffer->set_inode_number(dirent->get_inode_number())
+    buffer->set_stat(info)
+    buffer->set_name(dirent->get_name())
+
+    return DirectoryDescriptor::new(dir_ptr,path)
+:
+
+
+
+
+fn adl_find_next_file(DirectoryDescriptor fd,DirectoryEntry *buffer)->i64:
+    Dirent *dirent = readdir(fd.get_handle())
+    if dirent == null:
+        return -1
+    :
+
+    String str = String::new(fd.get_name())
+    str.append("/")
+    str.append(dirent.get_name())
+
+    Stat info = Stat::new()
+
+    if stat(str.get_c_string(),&info) == -1:
+        return -1
+    :
+    
+    buffer->set_inode_number(dirent->get_inode_number())
+    buffer->set_stat(info)
+    buffer->set_name(dirent->get_name())
+
+    return 0
+:
+
+
+
+
+
+fn adl_find_close(DirectoryDescriptor fd)->i64:
+    return closedir(fd.get_handle())
+:
