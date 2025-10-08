@@ -1,7 +1,7 @@
 # c4 => a better c
 c4 is a c-like system language with modern features and better memory management philosophy.
 
-c4 is aimed to be easy to understand and with little or no hidden magic,but powerful enough.
+c4 is aimed to be easy to understand and with little or no hidden magic,but powerful enoughto do whatever the mighty programmer desires.
 
 simple and safer and as fast as c
 
@@ -42,6 +42,10 @@ That way memory is always freed without the programmer hving to worry about diff
     if x = 100:
         char *str1 = malloc(200)
         scoped defer free(str1)  // free called at the end of the current scope
+
+        read_string(str1,200)
+        print(str1)
+        /*further code goes here ...*/
     :
 
 ```

@@ -1,0 +1,52 @@
+@include "linux/thread/native.c4"
+
+
+fn adl_spinlock_init(SPINLOCK_HANDLE *handle,i32 shared)->i64:
+    i64 ret = pthread_spin_init(handle,shared)
+    if ret != 0:
+        return -1
+    :
+
+    return 0
+:
+
+
+fn adl_spinlock_fini(SPINLOCK_HANDLE *handle)->i64:
+    i64 ret = pthread_spin_destroy(handle)
+    if ret != 0:
+        return -1
+    :
+
+    return 0
+:
+
+
+fn adl_spinlock_acquire(SPINLOCK_HANDLE *handle,bool blocking)->i64:
+    i64 ret = 0
+
+    switch blocking:
+        case true:
+            ret = pthread_spin_lock(handle)
+        :
+        case false:
+            ret = pthread_spin_trylock(handle)
+        :
+    :
+
+    if ret != 0:
+        return -1
+    :
+
+    return 0
+:
+
+
+
+fn adl_spinlock_release(SPINLOCK_HANDLE *handle)->i64:
+    i64 ret = pthread_spin_unlock(handle)
+    if ret != 0:
+        return -1
+    :
+
+    return 0
+:

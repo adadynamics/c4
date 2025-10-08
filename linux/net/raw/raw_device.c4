@@ -1,0 +1,86 @@
+@include "linux/net/socket/socket.c4"
+
+
+fn adl_raw_device_init(SocketProtocol protocol)->i64:
+    return socket(SocketProtocolFamily::PF_PACKET,SocketType::SOCK_RAW,htons(protocol))
+:
+
+fn adl_raw_device_fini(SOCKET_DESCRIPTOR fd)->i64:
+    return close(fd)
+:
+
+
+fn adl_raw_device_get_interface_index(SOCKET_DESCRIPTOR fd,Ifreq *ifr)->i64:
+    return ioctl(fd,NetDevice::SIOCGIFINDEX,ifr)
+:
+
+
+fn adl_raw_device_set_promisc(SOCKET_DESCRIPTOR fd,Ifreq *ifr)->i64:
+    i64 ret = ioctl(fd,NetDevice::SIOCGIFFLAGS,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    ifr->set_flags(ifr->get_flags() | NetDeviceFlags::IFF_PROMISC)
+
+    ret = ioctl(fd,NetDevice::SIOCSIFFLAGS,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    return 0
+:
+
+
+fn adl_raw_device_unset_promisc(SOCKET_DESCRIPTOR fd,Ifreq *ifr)->i64:
+    i64 ret = ioctl(fd,NetDevice::SIOCGIFFLAGS,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    ifr->set_flags(ifr->get_flags() & ~NetDeviceFlags::IFF_PROMISC)
+
+    ret = ioctl(fd,NetDevice::SIOCSIFFLAGS,ifr)
+    if ret == -1:
+        return -1
+    :
+
+    return 0
+:
+
+
+
+
+fn adl_raw_device_bind(SOCKET_DESCRIPTOR fd,Ifreq *ifr,SocketProtocol protocol)->i64:
+    SockaddrLL sll = SockaddrLL::new()
+    sll.set_interface_index(ifr->get_interface_index())
+    sll.set_family(SocketProtocolFamily::PF_PACKET)
+    sll.set_protocol(htons(protocol)
+
+    return bind(fd,cast<Sockaddr *>(&sll),sizeof(sll))
+:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,55 @@
+@include "linux/thread/native.c4"
+
+
+fn adl_mutex_init(MUTEX_HANDLE *handle,void *attributes)->i64:
+    i64 ret = pthread_mutex_init(handle,attributes)
+    if ret != 0:
+        return -1
+    :
+
+    return 0
+:
+
+
+fn adl_mutex_fini(MUTEX_HANDLE *handle)->i64:
+    i64 ret = pthread_mutex_destroy(handle)
+    if ret != 0:
+        return -1
+    :
+
+    return 0
+:
+
+
+fn adl_mutex_acquire(MUTEX_HANDLE *handle,bool blocking)->i64:
+    i64 ret = 0
+
+    switch blocking:
+        case true:
+            ret = pthread_mutex_lock(handle)
+        :
+        case false:
+            ret = pthread_mutex_trylock(handle)
+        :
+    :
+
+    if ret != 0:
+        if read_errno() == Errno::EOWNERDEAD:
+            pthread_mutex_consistent(handle)
+        :
+        return -1
+    :
+
+    return 0
+:
+
+
+
+fn adl_mutex_release(MUTEX_HANDLE *handle)->i64:
+    i64 ret = pthread_mutex_unlock(handle)
+    if ret != 0:
+        return -1
+    :
+
+    return 0
+:
