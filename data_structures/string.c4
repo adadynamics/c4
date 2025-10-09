@@ -1,0 +1,77 @@
+@include "std/string.c4"
+@include "std/memory.c4"
+@include "std/io.c4"
+
+struct String:
+    u64 size
+    u64 length
+    char *string
+:
+
+
+
+
+impl String:
+
+    fn new(char *string):
+        self->len = strlen(string)
+        self->size = self->len + 1
+        
+        self->string = cast<char *>(calloc(self->size,sizeof(char)))
+        if self->string == null:
+            return
+        :
+
+        strncpy(self->string,string,self->len)
+        self->string[self->len] = '\0'
+    :
+
+
+    fn append(char *string)->bool:
+        u64 length = strlen(string)
+
+        if (self->size - self->length) <= length:
+            u64 size = (self->size * 2) > (self->size + length + 1) ? (self->size * 2) : (self->size + length + 1)
+
+            char *ptr = cast<char *>(realloc(self->string,size)
+            if ptr == null:
+                return false
+            :
+
+            self->string = ptr
+            self->size = size
+        :
+
+        strncpy(self->string + self->length,string,length)
+        self->length += length
+        self->string[self->length] = '\0'
+
+        return true
+    :
+
+
+    fn get_length()->u64:
+        return self->length
+    :
+
+
+    fn print()->u64:
+        return printf("%s",self->string)
+    :
+
+
+    fn println()->u64:
+        return puts(self->string)
+    :
+
+    fn ~new():
+        if self->string != null:
+            scoped defer free(self->string)
+        :
+
+
+        self->size = self->length = 0
+    :
+:
+
+
