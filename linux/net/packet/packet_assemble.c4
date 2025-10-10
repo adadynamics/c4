@@ -1,5 +1,8 @@
-@include "linux/net/packet/packet_device.c4"
-
+@include "linux/net/ethernet/ethernet_types.c4"
+@include "linux/net/arp/arp_types.c4"
+@include "linux/net/ip/ip_types.c4"
+@include "linux/net/udp/udp_types.c4"
+@include "linux/net/tcp/tcp_types.c4"
 
 struct PacketAssemble:
 
@@ -10,12 +13,29 @@ impl PacketAssemble:
 
     :
 
-    fn build_ethernet()->bool:
-
+    fn build_ethernet((u8 *destination,u8 *source,u16 protocol)->bool:
+        return EthernetHeader::new(destination,source,protocol)
     :
 
-    fn build_arp()->bool:
+    fn build_arp(u16 hardware_type,u16 protocol_type,u8 hardware_length,u8 protocol_length,u16 operation,u8 *sender_hardware_address,u8 *sender_protocol_address,u8 *target_hardware_address,u8 *target_protocol_address)->bool:
+        switch hardware_length:
+            case EthernetConstant::ETH_HALEN:
+                switch protocol_length:
+                    case 4:
+                        var ArpExtendedHeader hdr
+                        hdr.hdr = ArpEthernetIpv4::new(sender_hardware_address,sender_protocol_address,target_hardware_address,target_protocol_address)
+                        return ArpHeader(hardware_type,protocol_type,hardware_length,protocol_length,operation,hdr)
 
+                    :
+                    default:
+                        panic("not implemented!!")
+                    :
+                :
+            :
+            default:
+                panic("not implemented!!!")
+            :
+        :
     :
 
     fn build_icmp_v4()->bool:
@@ -26,8 +46,8 @@ impl PacketAssemble:
 
     :
 
-    fn build_udp()->bool:
-
+    fn build_udp(u16 source,u16 destination,u16 length,u16 checksum)->UdpHeader:
+        return UdpHeader::new(source,destination,length,checksum)
     :
 
     fn build_tcp()->bool:

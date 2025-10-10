@@ -124,6 +124,47 @@ impl Arpreq:
 :
 
 
+struct ArpEthernetIpv4:
+    u8 sender_hardware_address[ETHERNET_ADDRESS_LENGTH]
+    u8 sender_protocol_address[4]
+    u8 target_hardware_address[ETHERNET_ADDRESS_LENGTH]
+    u8 target_protocol_address[4]
+:
+
+impl ArpEthernetIpv4:
+    fn new(u8 *sender_hardware_address,u8 *sender_protocol_address,u8 *target_hardware_addre    ss,u8 *target_protocol_address):
+        self->sender_hardware_address = sender_hardware_address
+        self->sender_protocol_address = sender_protocol_address
+        self->target_hardware_address = target_hardware_address
+        self->target_protocol_address = target_protocol_address
+    :
+
+
+    fn get_sender_hardware_address()->u8 *:
+        return self->sender_hardware_address
+    :
+
+
+    fn get_sender_protocol_address()->u8 *:
+        return self->sender_protocol_address
+    :
+
+    fn get_target_hardware_address()->u8 *:
+        return self->target_hardware_address
+    :
+
+
+    fn get_target_protocol_address()->u8 *:
+        return self->target_protocol_address
+    :
+
+:
+
+
+union ArpExtendedHeader:
+    ArpEthernetIpv4 hdr
+:
+
 
 struct ArpHeader:
     u16 hardware_type
@@ -132,7 +173,54 @@ struct ArpHeader:
     u8 protocol_length
     u16 operation
     // variable sized => consisting of sender's and receiver's  hardware and protocol addresses
+    ArpExtendedHeader hdr
 :
 
 
+impl ArpHeader:
+    fn new(u16 hardware_type,u16 protocol_type,u8 hardware_length,u8 protocol_length,u1    6 operation,ArpExtendedHeader hdr):
+        self->hardware_type   = hardware_type
+        self->protocol_type   = protocol_type
+        self->hardware_length = hardware_length
+        self->protocol_length = protocol_length
+        self->hdr             = hdr
+    :
+
+    fn get_hardware_type()->u16:
+        return self->hardware_type
+    :
+
+
+    fn get_protocol_type()->u16:
+        return self->protocol_type
+    :
+
+    fn get_hardware_length()->u8:
+        return self->hardware_length
+    :
+
+
+    fn get_protocol_length()->u8:
+        return self->protocol_length
+    :
+
+
+    fn get_sender_hardware_address()->u8 *:
+        return self->hdr.hdr.sender_hardware_address()
+    :
+
+
+    fn get_sender_protocol_address()->u8 *:
+        return self->hdr.hdr.sender_protocol_address()
+    :
+
+    fn get_target_hardware_address()->u8 *:
+        return self->hdr.hdr.target_hardware_address()
+    :
+
+
+    fn get_target_protocol_address()->u8 *:
+        return self->hdr.hdr.target_protocol_address()
+    :
+:
 

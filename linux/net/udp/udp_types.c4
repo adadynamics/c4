@@ -1,0 +1,59 @@
+struct UdpHeader:
+    u16 source
+    u16 destination
+    u16 length
+    u16 checksum
+:
+
+impl UdpHeader:
+    fn new(u16 source,u16 destination,u16 length,u16 checksum):
+        self->source = source
+        self->destination = destination
+        self->length = length
+        self->checksum = checksum
+    :
+
+    fn get_source()->u16:
+        return self->source
+    :
+
+    fn get_destination()->u16:
+        return self->destination
+    :
+
+    fn get_length()->u16:
+        return self->length
+    :
+
+    fn get_checksum()->u16:
+        return self->checksum
+    :
+
+
+    fn set_source(u16 source)->void:
+        self->source = source
+    :
+
+    fn set_destination(u16 destination)->void:
+        self->destination = destination
+    :
+
+    fn set_length(u16 length)->void:
+        self->length = length
+    :
+
+    fn set_checksum(u16 checksum)->void:
+        self->checksum = checksum
+    :
+:
+
+enum UdpSocketOption:
+    UDP_CORK          = 1     // Never send partially complete segments
+    UDP_ENCAP         = 100   // Accept encapsulated packets
+    UDP_NO_CHECK6_TX  = 101   // Disable sending checksum for UDP6
+    UDP_NO_CHECK6_RX  = 102   // Disable accepting checksum for UDP6
+    UDP_SEGMENT       = 103   // Set GSO segmentation size
+    UDP_GRO           = 104   // Receive UDP GRO packets
+:
+
+

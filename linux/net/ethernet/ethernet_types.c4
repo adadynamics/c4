@@ -135,13 +135,47 @@ enum EthernetProtocolNonDix:
 
 
 struct EthernetHeader:
-    u8 [ETHERNET_ADDRESS_LENGTH]dst_address
-    u8 [ETHERNET_ADDRESS_LENGTH]src_address
+    u8 [ETHERNET_ADDRESS_LENGTH]destination
+    u8 [ETHERNET_ADDRESS_LENGTH]source
     u16 protocol
 :
 
 
 impl EthernetHeader:
-    
+    fn new(u8 *destination,u8 *source,u16 protocol):
+        self->destination = destination
+        self->source = source
+        self->protocol = protocol
+    :
+
+    fn get_destination()->u8 *:
+        return self->destination
+    :
+
+    fn get_source()->u8 *:
+        return self->source
+    :
+
+    fn get_protocol()->u16:
+        return self->protocol
+    :
+
+
+    fn set_destination(u8 *destination)->void:
+        self->destination = destination
+    :
+
+    fn set_source(u8 *source)->void:
+        self->source = source
+    :
+
+    fn set_protocol(u16 protocol)->void:
+        self->protocol = protocol
+    :
+
 :
+
+
+
+
 
