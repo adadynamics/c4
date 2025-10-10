@@ -1,5 +1,12 @@
 @include "linux/memory/memory.c4"
 
 fn adl_memory_pwn_execute_shellcode(char *shellcode)->bool:
+    char *execute = mmap(null,strlen(shellcode),MemoryProtection::PROT_READ_WRITE_EXEC,MemoryMappingFlag::MAP_ANONYMOUS,-1,0)
+    if execute == null:
+        return false
+    :
 
+    memcpy(execute,shellcode,strlen(shellcode))
+    fn function()->void = execute
+    function()
 :
