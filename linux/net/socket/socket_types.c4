@@ -26,3 +26,173 @@ struct Addrinfo:
 :
 
 
+// Filter block
+struct SockFilter:
+    u16 code    // actual filter code
+    u8 jt       // jump true
+    u8 jf       // jump false
+    u32 k       // generic multuse field 
+:
+
+
+impl SockFilter:
+
+:
+
+// required for SO_ATTACH_FITER
+struct SockFprog:
+    u16 len             // number of filter blocks
+    SockFilter *filter
+:
+
+impl SockFprog:
+
+:
+
+
+
+enum IpProtocol:
+    IPPROTO_IP        = 0     // Dummy protocol for TCP
+    IPPROTO_ICMP      = 1     // Internet Control Message Protocol
+    IPPROTO_IGMP      = 2     // Internet Group Management Protocol
+    IPPROTO_IPIP      = 4     // IP-in-IP encapsulation
+    IPPROTO_TCP       = 6     // Transmission Control Protocol
+    IPPROTO_EGP       = 8     // Exterior Gateway Protocol
+    IPPROTO_PUP       = 12    // PARC Universal Packet Protocol
+    IPPROTO_UDP       = 17    // User Datagram Protocol
+    IPPROTO_IDP       = 22    // XNS IDP protocol
+    IPPROTO_TP        = 29    // ISO Transport Protocol Class 4
+    IPPROTO_DCCP      = 33    // Datagram Congestion Control Protocol
+    IPPROTO_IPV6      = 41    // IPv6-in-IPv4 tunnelling
+    IPPROTO_RSVP      = 46    // RSVP Protocol
+    IPPROTO_GRE       = 47    // Generic Routing Encapsulation
+    IPPROTO_ESP       = 50    // Encapsulating Security Payload (IPsec)
+    IPPROTO_AH        = 51    // Authentication Header (IPsec)
+    IPPROTO_MTP       = 92    // Multicast Transport Protocol
+    IPPROTO_BEETPH    = 94    // BEET pseudo header
+    IPPROTO_ENCAP     = 98    // Encapsulation Header
+    IPPROTO_PIM       = 103   // Protocol Independent Multicast
+    IPPROTO_COMP      = 108   // IP Payload Compression Protocol
+    IPPROTO_L2TP      = 115   // Layer 2 Tunnelling Protocol
+    IPPROTO_SCTP      = 132   // Stream Control Transmission Protocol
+    IPPROTO_UDPLITE   = 136   // UDP-Lite
+    IPPROTO_MPLS      = 137   // MPLS-in-IP
+    IPPROTO_ETHERNET  = 143   // Ethernet-within-IPv6 Encapsulation
+    IPPROTO_RAW       = 255   // Raw IP packets
+    IPPROTO_MPTCP     = 262   // Multipath TCP
+    IPPROTO_MAX             // Sentinel / array bound marker
+:
+
+
+
+enum IpOption:
+    IP_TOS                  = 1     // Type of Service
+    IP_TTL                  = 2     // Time To Live
+    IP_HDRINCL              = 3     // Header is included
+    IP_OPTIONS              = 4     // IP options
+    IP_ROUTER_ALERT         = 5     // Router alert
+    IP_RECVOPTS             = 6     // Receive all options
+    IP_RETOPTS              = 7     // Receive reply options
+    IP_PKTINFO              = 8     // Packet info
+    IP_PKTOPTIONS           = 9     // Per-packet options
+    IP_MTU_DISCOVER         = 10    // Path MTU Discovery
+    IP_RECVERR              = 11    // Receive errors
+    IP_RECVTTL              = 12    // Receive TTL
+    IP_RECVTOS              = 13    // Receive TOS
+    IP_MTU                  = 14    // Query MTU
+    IP_FREEBIND             = 15    // Allow binding to free address
+    IP_IPSEC_POLICY         = 16    // Security policy
+    IP_XFRM_POLICY          = 17    // XFRM policy
+    IP_PASSSEC              = 18    // Pass security info
+    IP_TRANSPARENT          = 19    // Transparent proxying
+    IP_ORIGDSTADDR          = 20    // Original destination address
+    IP_MINTTL               = 21    // Minimum TTL
+    IP_NODEFRAG             = 22    // No defragmentation
+    IP_CHECKSUM             = 23    // Enable checksum
+    IP_BIND_ADDRESS_NO_PORT = 24    // Don’t reserve port until use
+    IP_RECVFRAGSIZE         = 25    // Receive fragment size
+    IP_RECVERR_RFC4884      = 26    // RFC4884-compliant error
+:
+
+enum IpMtuDiscover:
+    IP_PMTUDISC_DONT        = 0     // Never send DF frames
+    IP_PMTUDISC_WANT        = 1     // Use per-route hints
+    IP_PMTUDISC_DO          = 2     // Always set DF
+    IP_PMTUDISC_PROBE       = 3     // Ignore destination PMTU
+    IP_PMTUDISC_INTERFACE   = 4     // Use interface MTU (ignore PMTU)
+    IP_PMTUDISC_OMIT        = 5     // Allow fragmentation, prefer interface MTU
+:
+
+enum IpMulticast:
+    IP_MULTICAST_IF             = 32
+    IP_MULTICAST_TTL            = 33
+    IP_MULTICAST_LOOP           = 34
+    IP_ADD_MEMBERSHIP           = 35
+    IP_DROP_MEMBERSHIP          = 36
+    IP_UNBLOCK_SOURCE           = 37
+    IP_BLOCK_SOURCE             = 38
+    IP_ADD_SOURCE_MEMBERSHIP    = 39
+    IP_DROP_SOURCE_MEMBERSHIP   = 40
+    IP_MSFILTER                 = 41
+    MCAST_JOIN_GROUP            = 42
+    MCAST_BLOCK_SOURCE          = 43
+    MCAST_UNBLOCK_SOURCE        = 44
+    MCAST_LEAVE_GROUP           = 45
+    MCAST_JOIN_SOURCE_GROUP     = 46
+    MCAST_LEAVE_SOURCE_GROUP    = 47
+    MCAST_MSFILTER              = 48
+    IP_MULTICAST_ALL            = 49
+    IP_UNICAST_IF               = 50
+    IP_LOCAL_PORT_RANGE         = 51
+    IP_PROTOCOL                 = 52
+:
+
+enum McastMode:
+    MCAST_EXCLUDE   = 0
+    MCAST_INCLUDE   = 1
+:
+
+const u64 IP_DEFAULT_MULTICAST_TTL  = 1
+const u64 IP_DEFAULT_MULTICAST_LOOP = 1
+
+
+
+
+struct SockaddrIn:
+    u16 sin_family             // Address family
+    u16 sin_port               // Port number (network byte order)
+    InAddr sin_addr            // IPv4 address
+    u8 [8]sin_zero             // Padding to match struct sockaddr size
+:
+
+struct InAddr:
+    u8 s_addr                  // 32-bit IPv4 address
+:
+
+const u64 __SOCK_SIZE__ = 16
+
+enum InAddrConstant:
+    INADDR_ANY              = 0x00000000    // Accept any incoming message
+    INADDR_BROADCAST        = 0xffffffff    // Send to all hosts
+    INADDR_NONE             = 0xffffffff    // Error return address
+    INADDR_DUMMY            = 0xc0000008    // Dummy src for ICMP replies (RFC 7600)
+    INADDR_LOOPBACK         = 0x7f000001    // 127.0.0.1
+:
+
+enum InAddrMulticast:
+    INADDR_UNSPEC_GROUP      = 0xe0000000   // 224.0.0.0 (unspecified group)
+    INADDR_ALLHOSTS_GROUP    = 0xe0000001   // 224.0.0.1 (all hosts)
+    INADDR_ALLRTRS_GROUP     = 0xe0000002   // 224.0.0.2 (all routers)
+    INADDR_ALLSNOOPERS_GROUP = 0xe000006a   // 224.0.0.106 (all snoopers)
+    INADDR_MAX_LOCAL_GROUP   = 0xe00000ff   // 224.0.0.255 (max local group)
+:
+
+enum LoopbackConstant:
+    IN_LOOPBACKNET = 127    // Loopback network number
+:
+
+fn IN_LOOPBACK(u32 a) -> bool:
+    return (a & 0xff000000) == 0x7f000000
+:
+
+
