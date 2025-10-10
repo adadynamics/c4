@@ -1,0 +1,36 @@
+@include "linux/net/packet/packet_device.c4"
+
+
+struct PacketAssemble:
+
+:
+
+impl PacketAssemble:
+    fn new():
+
+    :
+
+    fn build_ethernet()->bool:
+
+    :
+
+    fn build_arp()->bool:
+
+    :
+
+    fn build_icmp_v4()->bool:
+
+    :
+
+    fn build_ip_v4()->bool:
+
+    :
+
+    fn build_udp()->bool:
+
+    :
+
+    fn build_tcp()->bool:
+
+    :
+:

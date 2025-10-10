@@ -12,7 +12,7 @@ impl PacketDevice:
         self->fd = 0
     :
 
-    fn open(char *name,SocketProtocol protocol)->bool:
+    fn open(char *name,EthernetProtocol protocol)->bool:
         i64 ret = 0
 
         ret = adl_packet_device_open(name,protocol,&(self->ifr))

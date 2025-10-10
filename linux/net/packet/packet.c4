@@ -1,7 +1,9 @@
 @include "linux/net/socket/socket.c4"
 @include "linux/net/packet/packet_types.c4"
+@include "linux/net/ethernet/ethernet_types.c4"
 
-fn adl_packet_device_init(SocketProtocol protocol)->i64:
+
+fn adl_packet_device_init(EthernetProtocol protocol)->i64:
     return socket(SocketProtocolFamily::PF_PACKET,SocketType::SOCK_RAW,htons(protocol))
 :
 
@@ -64,7 +66,7 @@ fn adl_packet_device_bind(SOCKET_DESCRIPTOR fd,Ifreq *ifr,SocketProtocol protoco
 
 
 
-fn adl_packet_device_open(char *device,SocketProtocol protocol,Ifreq *ifr)->i64:
+fn adl_packet_device_open(char *device,EthernetProtocol protocol,Ifreq *ifr)->i64:
     i64 ret = 0
     i64 fd = 0
 

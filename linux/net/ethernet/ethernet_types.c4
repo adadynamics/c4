@@ -94,6 +94,8 @@ enum EthernetProtocol:
     ETH_P_AF_IUCV = 0xFBFB       // IBM af_iucv (not official)
 
     ETH_P_802_3_MIN = 0x0600     // Threshold for Ethernet II frames
+
+    ETH_P_ALL        = 0x0003   // Every packet (use with care)
 :
 
 
