@@ -1,0 +1,6 @@
+@include "std/io.c4"
+
+fn main()->i32:
+    print("hello world")
+    return 0
+:

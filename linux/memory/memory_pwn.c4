@@ -1,0 +1,5 @@
+@include "linux/memory/memory.c4"
+
+fn adl_memory_pwn_execute_shellcode(char *shellcode)->bool:
+
+:
