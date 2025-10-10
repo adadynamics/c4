@@ -1,0 +1,98 @@
+
+
+// --- TCP Header Structure ---
+struct TcpHeader:
+    u16 source
+    u16 destination
+    u32 seq
+    u32 ack_seq
+
+    // Compact representation of header control bits.
+    // This includes data offset, reserved bits, and flags.
+    u16 flags
+
+    u16 window
+    u16 checksum
+    u16 urgent_ptr
+:
+
+// --- TCP Flags and Bitfield Masks ---
+enum TcpFlags:
+    TCP_FLAG_FIN = 1 << 0
+    TCP_FLAG_SYN = 1 << 1
+    TCP_FLAG_RST = 1 << 2
+    TCP_FLAG_PSH = 1 << 3
+    TCP_FLAG_ACK = 1 << 4
+    TCP_FLAG_URG = 1 << 5
+    TCP_FLAG_ECE = 1 << 6
+    TCP_FLAG_CWR = 1 << 7
+
+    // Masks for upper bits (data offset + reserved bits)
+    TCP_OFFSET_MASK    = 0xF000
+    TCP_RESERVED_MASK  = 0x0F00
+    TCP_OFFSET_SHIFT   = 12
+    TCP_RESERVED_SHIFT = 8
+:
+
+
+
+
+
+// --- TCP General Constants ---
+enum TcpConstants:
+    TCP_MSS_DEFAULT = 536u      // IPv4 (RFC1122, RFC2581)
+    TCP_MSS_DESIRED = 1220u     // IPv6 (tunneled), EDNS0 (RFC3226)
+:
+
+// --- TCP Socket Options ---
+enum TcpSocketOptions:
+    TCP_NODELAY = 1             // Turn off Nagle's algorithm
+    TCP_MAXSEG = 2              // Limit MSS
+    TCP_CORK = 3                // Never send partially complete segments
+    TCP_KEEPIDLE = 4            // Start keepalives after this period
+    TCP_KEEPINTVL = 5           // Interval between keepalives
+    TCP_KEEPCNT = 6             // Number of keepalives before death
+    TCP_SYNCNT = 7              // Number of SYN retransmits
+    TCP_LINGER2 = 8             // Life time of orphaned FIN-WAIT-2 state
+    TCP_DEFER_ACCEPT = 9        // Wake up listener only when data arrive
+    TCP_WINDOW_CLAMP = 10       // Bound advertised window
+    TCP_INFO = 11               // Information about this connection
+    TCP_QUICKACK = 12           // Block/reenable quick acks
+    TCP_CONGESTION = 13         // Congestion control algorithm
+    TCP_MD5SIG = 14             // TCP MD5 Signature (RFC2385)
+    TCP_THIN_LINEAR_TIMEOUTS = 16   // Linear timeouts for thin streams
+    TCP_THIN_DUPACK = 17            // Fast retransmit after 1 dupack
+    TCP_USER_TIMEOUT = 18           // How long to retry before timeout
+    TCP_REPAIR = 19                 // TCP socket under repair
+    TCP_REPAIR_QUEUE = 20
+    TCP_QUEUE_SEQ = 21
+    TCP_REPAIR_OPTIONS = 22
+    TCP_FASTOPEN = 23               // Enable FastOpen on listeners
+    TCP_TIMESTAMP = 24
+    TCP_NOTSENT_LOWAT = 25          // Limit unsent bytes in queue
+    TCP_CC_INFO = 26                // Get Congestion Control info
+    TCP_SAVE_SYN = 27               // Record SYN headers for new connections
+    TCP_SAVED_SYN = 28              // Get recorded SYN headers
+    TCP_REPAIR_WINDOW = 29          // Get/set window parameters
+    TCP_FASTOPEN_CONNECT = 30       // Attempt FastOpen with connect()
+    TCP_ULP = 31                    // Attach a ULP to TCP
+    TCP_MD5SIG_EXT = 32             // TCP MD5 Signature with extensions
+    TCP_FASTOPEN_KEY = 33           // Set Fast Open cookie key
+    TCP_FASTOPEN_NO_COOKIE = 34     // Enable TFO without a cookie
+    TCP_ZEROCOPY_RECEIVE = 35
+    TCP_INQ = 36                    // Notify bytes available (cmsg)
+    TCP_TX_DELAY = 37               // Delay outgoing packets by XX usec
+    TCP_AO_ADD_KEY = 38             // Add/Set MKT
+    TCP_AO_DEL_KEY = 39             // Delete MKT
+    TCP_AO_INFO = 40                // Set/list TCP-AO options
+    TCP_AO_GET_KEYS = 41            // List MKT(s)
+    TCP_AO_REPAIR = 42              // Get/Set SNEs and ISNs
+:
+
+// --- TCP Repair Modes ---
+enum TcpRepairMode:
+    TCP_REPAIR_OFF_NO_WP = -1       // Turn off without window probes
+    TCP_REPAIR_OFF = 0
+    TCP_REPAIR_ON = 1
+:
+

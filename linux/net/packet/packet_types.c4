@@ -1,3 +1,150 @@
+// for compatibility with glibc getifaddrs
+
+union IfaIfu:
+    SockAddr* ifu_broadaddr        // Broadcast address (IFF_BROADCAST)
+    SockAddr* ifu_dstaddr          // Point-to-point destination address
+:
+
+struct Ifaddrs:
+    Ifaddrs* ifa_next              // Pointer to the next structure
+    char* ifa_name                 // Name of this network interface
+    u32 ifa_flags                  // Flags as from SIOCGIFFLAGS ioctl
+    SockAddr* ifa_addr             // Network address of this interface
+    SockAddr* ifa_netmask          // Netmask of this interface
+    IfaIfu ifa_ifu                 // Union: broadcast or destination address
+    void* ifa_data                 // Address-specific data
+:
+
+@define ifa_broadaddr ifa_ifu.ifu_broadaddr
+@define ifa_dstaddr   ifa_ifu.ifu_dstaddr
+
+// Functions
+
+extern "C":
+    fn getifaddrs(Ifaddrs** ifap) -> i32
+    fn freeifaddrs(Ifaddrs* ifa)
+:
+
+
+
+// --- ifmap struct ---
+struct IfMap:
+    ulong mem_start
+    ulong mem_end
+    ushort base_addr
+    u8 irq
+    u8 dma
+    u8 port
+    u8 [3]spare
+:
+
+// --- flattened union for if_settings ---
+struct IfSettingsUnion:
+    RawHdlcProto* raw_hdlc
+    CiscoProto* cisco
+    FrProto* fr
+    FrProtoPvc* fr_pvc
+    FrProtoPvcInfo* fr_pvc_info
+    X25HdlcProto* x25
+    SyncSerialSettings* sync
+    Te1Settings* te1
+:
+
+// --- main if_settings struct ---
+struct IfSettings:
+    u32 type       // Type of physical device or protocol
+    u32 size       // Size of data allocated by caller
+    IfSettingsUnion ifs_ifsu
+:
+
+// --- field defines (for compatibility) ---
+@define ifs_raw_hdlc = ifs_ifsu.raw_hdlc
+@define ifs_cisco = ifs_ifsu.cisco
+@define ifs_fr = ifs_ifsu.fr
+@define ifs_fr_pvc = ifs_ifsu.fr_pvc
+@define ifs_fr_pvc_info = ifs_ifsu.fr_pvc_info
+@define ifs_x25 = ifs_ifsu.x25
+@define ifs_sync = ifs_ifsu.sync
+@define ifs_te1 = ifs_ifsu.te1
+
+
+
+enum NetDeviceFlags:
+    IFF_UP             = 1 << 0   // Interface is up
+    IFF_BROADCAST      = 1 << 1   // Broadcast address valid
+    IFF_DEBUG          = 1 << 2   // Internal debugging flag
+    IFF_LOOPBACK       = 1 << 3   // Loopback interface
+    IFF_POINTOPOINT    = 1 << 4   // Point-to-point link
+    IFF_NOTRAILERS     = 1 << 5   // Avoid use of trailers
+    IFF_RUNNING        = 1 << 6   // Resources allocated
+    IFF_NOARP          = 1 << 7   // No ARP protocol
+    IFF_PROMISC        = 1 << 8   // Receive all packets
+    IFF_ALLMULTI       = 1 << 9   // Receive all multicast packets
+    IFF_MASTER         = 1 << 10  // Master of a load balancer
+    IFF_SLAVE          = 1 << 11  // Slave of a load balancer
+    IFF_MULTICAST      = 1 << 12  // Supports multicast
+    IFF_PORTSEL        = 1 << 13  // Can select media type
+    IFF_AUTOMEDIA      = 1 << 14  // Auto media select active
+    IFF_DYNAMIC        = 1 << 15  // Dialup device with changing addresses
+    IFF_LOWER_UP       = 1 << 16  // Physical link up
+    IFF_DORMANT        = 1 << 17  // Waiting for external event
+    IFF_ECHO           = 1 << 18  // Echo sent packets
+:
+
+
+
+@define IFHWADDRLEN = 6
+
+
+union IfReqName:
+    char [IFNAMSIZ]ifrn_name
+:
+
+union IfReqUnion:
+    SockAddr ifru_addr
+    SockAddr ifru_dstaddr
+    SockAddr ifru_broadaddr
+    SockAddr ifru_netmask
+    SockAddr ifru_hwaddr
+    i16 ifru_flags
+    i32 ifru_ivalue
+    i32 ifru_mtu
+    IfMap ifru_map
+    char [IFNAMSIZ]ifru_slave
+    char [IFNAMSIZ]ifru_newname
+    void *ifru_data
+    IfSettings ifru_settings
+:
+
+
+
+struct Ifreq:
+    IfReqName ifr_ifrn
+    IfReqUnion ifr_ifru
+:
+
+// --- alias defines (1:1 with C macros) ---
+
+@define ifr_name = ifr_ifrn.ifrn_name
+@define ifr_hwaddr = ifr_ifru.ifru_hwaddr
+@define ifr_addr = ifr_ifru.ifru_addr
+@define ifr_dstaddr = ifr_ifru.ifru_dstaddr
+@define ifr_broadaddr = ifr_ifru.ifru_broadaddr
+@define ifr_netmask = ifr_ifru.ifru_netmask
+@define ifr_flags = ifr_ifru.ifru_flags
+@define ifr_metric = ifr_ifru.ifru_ivalue
+@define ifr_mtu = ifr_ifru.ifru_mtu
+@define ifr_map = ifr_ifru.ifru_map
+@define ifr_slave = ifr_ifru.ifru_slave
+@define ifr_data = ifr_ifru.ifru_data
+@define ifr_ifindex = ifr_ifru.ifru_ivalue
+@define ifr_bandwidth = ifr_ifru.ifru_ivalue
+@define ifr_qlen = ifr_ifru.ifru_ivalue
+@define ifr_newname = ifr_ifru.ifru_newname
+@define ifr_settings = ifr_ifru.ifru_settings
+
+
+
 enum PacketType:
     PACKET_HOST = 0        // To us
     PACKET_BROADCAST = 1   // To all
@@ -88,4 +235,6 @@ struct PacketMreq:
     u16 mr_alen
     u8 [8]mr_address
 :
+
+
 

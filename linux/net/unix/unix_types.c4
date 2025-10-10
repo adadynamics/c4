@@ -1,0 +1,13 @@
+enum UnixConstant:
+    UNIX_PATH_MAX = 108
+:
+
+struct SockaddrUn:
+    u16 sun_family                   // Address family (AF_UNIX)
+    char [UNIX_PATH_MAX]sun_path     // Pathname
+:
+
+enum UnixIoctl:
+    SIOCUNIXFILE = SIOCPROTOPRIVATE + 0   // open a socket file with O_PATH
+:
+
