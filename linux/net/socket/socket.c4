@@ -1,34 +1,7 @@
 @include "std/io.c4"
 @include "std/memory.c4"
 @include "std/error.c4"
-
-enum SocketType:
-    SOCK_STREAM = 1    /* Sequenced, reliable, connection-based byte streams. */
-    SOCK_DGRAM  = 2    /* Connectionless, unreliable datagrams of fixed max length. */
-    SOCK_RAW    = 3    /* Raw protocol interface. */
-    SOCK_RDM    = 4    /* Reliably-delivered messages. */
-    SOCK_SEQPACKET = 5 /* Sequenced, reliable, connection-based, datagrams of fixed max length. */
-    SOCK_DCCP   = 6    /* Datagram Congestion Control Protocol. */
-    SOCK_PACKET = 10   /* Linux specific way of getting packets at the dev level. */
-:
-
-struct Sockaddr:
-    u16 sa_family
-    char []sa_data
-:
-
-
-struct Addrinfo:
-    i32 ai_flags
-    i32 ai_family
-    i32 ai_socktype
-    i32 ai_protocol
-    i32 ai_addrlen
-    Sockaddr *ai_addr
-    char *ai_canonname
-    Addrinfo *ai_next
-:
-
+@include "linux/net/socket/socket_types.c4"
 
 fn socket_init()->bool:
     return true

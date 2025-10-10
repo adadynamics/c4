@@ -1,0 +1,91 @@
+enum PacketType:
+    PACKET_HOST = 0        // To us
+    PACKET_BROADCAST = 1   // To all
+    PACKET_MULTICAST = 2   // To group
+    PACKET_OTHERHOST = 3   // To someone else
+    PACKET_OUTGOING = 4    // Outgoing of any type
+    PACKET_LOOPBACK = 5    // MC/BRD frame looped back
+    PACKET_USER = 6        // To user space
+    PACKET_KERNEL = 7      // To kernel space
+    PACKET_FASTROUTE = 6   // Fastrouted frame (unused)
+:
+
+
+
+struct SockaddrLL:
+    u16 sll_family
+    u16 sll_protocol
+    i32 sll_ifindex
+    u16 sll_hatype
+    u8 sll_pkttype
+    u8 sll_halen
+    u8 [8]sll_addr
+:
+
+impl SockaddrLL:
+
+:
+
+
+enum PacketSocketOption:
+    PACKET_ADD_MEMBERSHIP = 1
+    PACKET_DROP_MEMBERSHIP = 2
+    PACKET_RECV_OUTPUT = 3
+    // Value 4 reserved for obsolete turbo-packet
+    PACKET_RX_RING = 5
+    PACKET_STATISTICS = 6
+    PACKET_COPY_THRESH = 7
+    PACKET_AUXDATA = 8
+    PACKET_ORIGDEV = 9
+    PACKET_VERSION = 10
+    PACKET_HDRLEN = 11
+    PACKET_RESERVE = 12
+    PACKET_TX_RING = 13
+    PACKET_LOSS = 14
+    PACKET_VNET_HDR = 15
+    PACKET_TX_TIMESTAMP = 16
+    PACKET_TIMESTAMP = 17
+    PACKET_FANOUT = 18
+    PACKET_TX_HAS_OFF = 19
+    PACKET_QDISC_BYPASS = 20
+    PACKET_ROLLOVER_STATS = 21
+    PACKET_FANOUT_DATA = 22
+    PACKET_IGNORE_OUTGOING = 23
+    PACKET_VNET_HDR_SZ = 24
+:
+
+
+
+enum PacketFanoutMode:
+    PACKET_FANOUT_HASH = 0
+    PACKET_FANOUT_LB = 1
+    PACKET_FANOUT_CPU = 2
+    PACKET_FANOUT_ROLLOVER = 3
+    PACKET_FANOUT_RND = 4
+    PACKET_FANOUT_QM = 5
+    PACKET_FANOUT_CBPF = 6
+    PACKET_FANOUT_EBPF = 7
+:
+
+enum PacketFanoutFlag:
+    PACKET_FANOUT_FLAG_ROLLOVER = 0x1000
+    PACKET_FANOUT_FLAG_UNIQUEID = 0x2000
+    PACKET_FANOUT_FLAG_IGNORE_OUTGOING = 0x4000
+    PACKET_FANOUT_FLAG_DEFRAG = 0x8000
+:
+
+enum PacketMembershipType:
+    PACKET_MR_MULTICAST = 0     // Join a multicast group
+    PACKET_MR_PROMISC = 1       // Enable promiscuous mode
+    PACKET_MR_ALLMULTI = 2      // Receive all multicast packets
+    PACKET_MR_UNICAST = 3       // Receive unicast packets (if supported)
+:
+
+
+struct PacketMreq:
+    i32 mr_ifindex
+    u16 mr_type
+    u16 mr_alen
+    u8 [8]mr_address
+:
+

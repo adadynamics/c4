@@ -1,12 +1,12 @@
-@include "linux/net/raw/raw.c4"
+@include "linux/net/packet/packet.c4"
 
 
-struct RawDevice:
+struct PacketDevice:
     i64 fd
     Ifreq ifr
 :
 
-impl RawDevice:
+impl PacketDevice:
     fn new():
         self->ifr = Ifreq::new()
         self->fd = 0
@@ -15,7 +15,7 @@ impl RawDevice:
     fn open(char *name,SocketProtocol protocol)->bool:
         i64 ret = 0
 
-        ret = adl_raw_device_open(name,protocol,&(self->ifr))
+        ret = adl_packet_device_open(name,protocol,&(self->ifr))
         if ret == -1:
             return false
         :
@@ -26,16 +26,16 @@ impl RawDevice:
 
 
     fn read(void *buffer,u64 size)->i64:
-        return adl_raw_device_read(self->fd,buffer,size)
+        return adl_packet_device_read(self->fd,buffer,size)
     :
 
 
     fn write(void *buffer,u64 size)->i64:
-        return adl_raw_device_write(self->fd,buffer,size)
+        return adl_packet_device_write(self->fd,buffer,size)
     :
 
     
     fn close()->bool:
-        return (adl_raw_device_close(self->fd,&(self->ifr)) != -1)
+        return (adl_packet_device_close(self->fd,&(self->ifr)) != -1)
     :
 :

@@ -1,0 +1,120 @@
+enum IcmpType:
+    ICMP_ECHOREPLY       = 0   // Echo Reply
+    ICMP_DEST_UNREACH    = 3   // Destination Unreachable
+    ICMP_SOURCE_QUENCH   = 4   // Source Quench (Deprecated)
+    ICMP_REDIRECT        = 5   // Redirect (change route)
+    ICMP_ECHO            = 8   // Echo Request
+    ICMP_TIME_EXCEEDED   = 11  // Time Exceeded
+    ICMP_PARAMETERPROB   = 12  // Parameter Problem
+    ICMP_TIMESTAMP       = 13  // Timestamp Request
+    ICMP_TIMESTAMPREPLY  = 14  // Timestamp Reply
+    ICMP_INFO_REQUEST    = 15  // Information Request
+    ICMP_INFO_REPLY      = 16  // Information Reply
+    ICMP_ADDRESS         = 17  // Address Mask Request
+    ICMP_ADDRESSREPLY    = 18  // Address Mask Reply
+    NR_ICMP_TYPES        = 18  // Number of ICMP types defined
+:
+
+
+
+enum IcmpUnreachableCode:
+    ICMP_NET_UNREACH      = 0   // Network Unreachable
+    ICMP_HOST_UNREACH     = 1   // Host Unreachable
+    ICMP_PROT_UNREACH     = 2   // Protocol Unreachable
+    ICMP_PORT_UNREACH     = 3   // Port Unreachable
+    ICMP_FRAG_NEEDED      = 4   // Fragmentation Needed / DF set
+    ICMP_SR_FAILED        = 5   // Source Route Failed
+    ICMP_NET_UNKNOWN      = 6   // Network Unknown
+    ICMP_HOST_UNKNOWN     = 7   // Host Unknown
+    ICMP_HOST_ISOLATED    = 8   // Host Isolated
+    ICMP_NET_ANO          = 9   // Network Administratively Prohibited
+    ICMP_HOST_ANO         = 10  // Host Administratively Prohibited
+    ICMP_NET_UNR_TOS      = 11  // Network Unreachable for TOS
+    ICMP_HOST_UNR_TOS     = 12  // Host Unreachable for TOS
+    ICMP_PKT_FILTERED     = 13  // Packet Filtered
+    ICMP_PREC_VIOLATION   = 14  // Precedence Violation
+    ICMP_PREC_CUTOFF      = 15  // Precedence Cutoff
+    NR_ICMP_UNREACH       = 15  // Total number of unreachable codes
+:
+
+
+enum IcmpRedirectCode:
+    ICMP_REDIR_NET      = 0   // Redirect for Network
+    ICMP_REDIR_HOST     = 1   // Redirect for Host
+    ICMP_REDIR_NETTOS   = 2   // Redirect for Network (TOS specific)
+    ICMP_REDIR_HOSTTOS  = 3   // Redirect for Host (TOS specific)
+:
+
+
+enum IcmpTimeExceededCode:
+    ICMP_EXC_TTL        = 0   // TTL count exceeded
+    ICMP_EXC_FRAGTIME   = 1   // Fragment reassembly time exceeded
+:
+
+
+enum IcmpExtEchoType:
+    ICMP_EXT_ECHO           = 42  // Extended Echo Request
+    ICMP_EXT_ECHOREPLY      = 43  // Extended Echo Reply
+:
+
+
+enum IcmpExtEchoCode:
+    ICMP_EXT_CODE_MAL_QUERY     = 1   // Malformed Query
+    ICMP_EXT_CODE_NO_IF         = 2   // No such Interface
+    ICMP_EXT_CODE_NO_TABLE_ENT  = 3   // No such Table Entry
+    ICMP_EXT_CODE_MULT_IFS      = 4   // Multiple Interfaces Satisfy Query
+:
+
+
+enum IcmpExtEchoReplyFlags:
+    ICMP_EXT_ECHOREPLY_ACTIVE   = (1 << 2)  // Active bit in reply message
+    ICMP_EXT_ECHOREPLY_IPV4     = (1 << 1)  // IPv4 bit in reply message
+    ICMP_EXT_ECHOREPLY_IPV6     = 1         // IPv6 bit in reply message
+:
+
+
+
+enum IcmpExtEchoCtype:
+    ICMP_EXT_ECHO_CTYPE_NAME    = 1   // Query by Name
+    ICMP_EXT_ECHO_CTYPE_INDEX   = 2   // Query by Interface Index
+    ICMP_EXT_ECHO_CTYPE_ADDR    = 3   // Query by Address
+:
+
+
+enum IcmpAddressFamily:
+    ICMP_AFI_IP     = 1   // IPv4
+    ICMP_AFI_IP6    = 2   // IPv6
+:
+
+
+
+
+struct IcmpHeader:
+    u8 type
+    u8 code
+    u16 checksum
+    // extended header
+:
+
+
+impl IcmpHeader:
+
+:
+
+
+
+
+struct IcmpFilter:
+    u32 data
+:
+
+impl IcmpFilter:
+
+:
+
+
+
+
+
+
+

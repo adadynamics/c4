@@ -1,0 +1,138 @@
+enum ArpHardware:
+    // Primary ARP hardware identifiers
+    ARPHRD_NETROM        = 0      // NET/ROM pseudo
+    ARPHRD_ETHER         = 1      // Ethernet (10 Mbps)
+    ARPHRD_EETHER        = 2      // Experimental Ethernet
+    ARPHRD_AX25          = 3      // AX.25 Level 2
+    ARPHRD_PRONET        = 4      // PROnet token ring
+    ARPHRD_CHAOS         = 5      // Chaosnet
+    ARPHRD_IEEE802       = 6      // IEEE 802.2 Ethernet/Token Ring/Token Bus
+    ARPHRD_ARCNET        = 7      // ARCnet
+    ARPHRD_APPLETLK      = 8      // AppleTalk
+    ARPHRD_DLCI          = 15     // Frame Relay DLCI
+    ARPHRD_ATM           = 19     // ATM
+    ARPHRD_METRICOM      = 23     // Metricom STRIP
+    ARPHRD_IEEE1394      = 24     // IEEE 1394 (FireWire IPv4)
+    ARPHRD_EUI64         = 27     // EUI-64
+    ARPHRD_INFINIBAND    = 32     // InfiniBand
+
+    // Dummy types for non-ARP hardware
+    ARPHRD_SLIP          = 256    // SLIP
+    ARPHRD_CSLIP         = 257    // Compressed SLIP
+    ARPHRD_SLIP6         = 258    // SLIP IPv6
+    ARPHRD_CSLIP6        = 259    // Compressed SLIP IPv6
+    ARPHRD_RSRVD         = 260    // Notional KISS type
+    ARPHRD_ADAPT         = 264
+    ARPHRD_ROSE          = 270
+    ARPHRD_X25           = 271    // CCITT X.25
+    ARPHRD_HWX25         = 272    // X.25 in firmware
+    ARPHRD_CAN           = 280    // Controller Area Network
+    ARPHRD_MCTP          = 290
+    ARPHRD_PPP           = 512
+    ARPHRD_CISCO         = 513    // Cisco HDLC
+    ARPHRD_HDLC          = 513    // Alias for ARPHRD_CISCO
+    ARPHRD_LAPB          = 516    // LAPB
+    ARPHRD_DDCMP         = 517    // Digital DDCMP
+    ARPHRD_RAWHDLC       = 518    // Raw HDLC
+    ARPHRD_RAWIP         = 519    // Raw IP
+
+    // Virtual/tunnel interfaces
+    ARPHRD_TUNNEL        = 768    // IPIP tunnel
+    ARPHRD_TUNNEL6       = 769    // IP6IP6 tunnel
+    ARPHRD_FRAD          = 770    // Frame Relay Access Device
+    ARPHRD_SKIP          = 771    // SKIP vif
+    ARPHRD_LOOPBACK      = 772    // Loopback device
+    ARPHRD_LOCALTLK      = 773    // Localtalk device
+    ARPHRD_FDDI          = 774    // FDDI
+    ARPHRD_BIF           = 775    // AP1000 BIF
+    ARPHRD_SIT           = 776    // IPv6-in-IPv4
+    ARPHRD_IPDDP         = 777    // IP over DDP tunnel
+    ARPHRD_IPGRE         = 778    // GRE over IP
+    ARPHRD_PIMREG        = 779    // PIMSM register
+    ARPHRD_HIPPI         = 780    // High Perf. Parallel Interface
+    ARPHRD_ASH           = 781    // Nexus 64Mbps Ash
+    ARPHRD_ECONET        = 782    // Acorn Econet
+    ARPHRD_IRDA          = 783    // Linux-IrDA
+
+    // Fibre Channel and related media
+    ARPHRD_FCPP          = 784    // Fibre Channel point-to-point
+    ARPHRD_FCAL          = 785    // Fibre Channel arbitrated loop
+    ARPHRD_FCPL          = 786    // Fibre Channel public loop
+    ARPHRD_FCFABRIC      = 787    // Fibre Channel fabric
+
+    // IEEE 802.x and wireless
+    ARPHRD_IEEE802_TR        = 800    // Token Ring
+    ARPHRD_IEEE80211         = 801    // IEEE 802.11 Wi-Fi
+    ARPHRD_IEEE80211_PRISM   = 802    // Wi-Fi + Prism2 header
+    ARPHRD_IEEE80211_RADIOTAP= 803    // Wi-Fi + radiotap header
+    ARPHRD_IEEE802154        = 804    // IEEE 802.15.4
+    ARPHRD_IEEE802154_MONITOR= 805    // IEEE 802.15.4 monitor
+
+    // Miscellaneous protocols
+    ARPHRD_PHONET        = 820
+    ARPHRD_PHONET_PIPE   = 821
+    ARPHRD_CAIF          = 822
+    ARPHRD_IP6GRE        = 823
+    ARPHRD_NETLINK       = 824
+    ARPHRD_6LOWPAN       = 825    // IPv6 over LoWPAN
+    ARPHRD_VSOCKMON      = 826    // Vsock monitor header
+
+    // Sentinel values
+    ARPHRD_VOID          = 0xFFFF // Void type
+    ARPHRD_NONE          = 0xFFFE // No header
+:
+
+
+
+
+enum ArpOpcode:
+    ARPOP_REQUEST      = 1    // ARP request
+    ARPOP_REPLY        = 2    // ARP reply
+    ARPOP_RREQUEST     = 3    // RARP request
+    ARPOP_RREPLY       = 4    // RARP reply
+    ARPOP_InREQUEST    = 8    // InARP request
+    ARPOP_InREPLY      = 9    // InARP reply
+    ARPOP_NAK          = 10   // ATM ARP NAK
+:
+
+
+
+
+enum ArpFlag:
+    ATF_COM         = 0x02    // Completed entry (hardware address valid)
+    ATF_PERM        = 0x04    // Permanent entry (do not expire)
+    ATF_PUBL        = 0x08    // Publish entry (respond on behalf of others)
+    ATF_USETRAILERS = 0x10    // Requested use of trailers
+    ATF_NETMASK     = 0x20    // Use a netmask (for proxy entries)
+    ATF_DONTPUB     = 0x40    // Do not publish this address
+:
+
+
+@define IFNAMSIZ
+
+struct Arpreq:
+    Sockaddr arp_pa
+    Sockaddr arp_ha
+    i32 arp_flags
+    Sockaddr arp_netmask
+    char []arp_dev
+:
+
+
+impl Arpreq:
+
+:
+
+
+
+struct ArpHeader:
+    u16 hardware_type
+    u16 protocol_type
+    u8 hardware_length
+    u8 protocol_length
+    u16 operation
+    // variable sized => consisting of sender's and receiver's  hardware and protocol addresses
+:
+
+
+
